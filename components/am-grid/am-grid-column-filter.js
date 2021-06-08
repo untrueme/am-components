@@ -1,21 +1,10 @@
 import { LitElement, html, css } from 'lit';
 
-class AmGridColumn extends LitElement {
+class AmGridColumnFilter extends LitElement {
 
     static get properties() {
         return {
-            header: {
-                type: String
-            },
-            width: {
-                type: String
-            },
-            field: {
-                type: String
-            },
-            hidden: {
-                type: Boolean
-            }
+           
         }
     }
     static get styles() {
@@ -28,22 +17,22 @@ class AmGridColumn extends LitElement {
                 overflow: hidden;
                 display: flex;
                 align-items: center;
-                background: rgb(32, 156, 238);
-                color: white;
+                background: transparent;
+                color: black;
                 padding: 0 8px;
-                border-right: 1px solid #DCDEE1;
                 height: 32px;
             }
             :host([hidden]) {
                 display: none;
             }
+            	
         `;
     }
     render() {
         return html`
-            ${this.header}
+           <slot></slot>
         `;
     }
 }
 
-customElements.define('am-grid-column', AmGridColumn);
+customElements.define('am-grid-column-filter', AmGridColumnFilter);

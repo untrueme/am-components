@@ -21,6 +21,13 @@ class AmGridRow extends LitElement {
             }
 		`;
     }
+
+    connectedCallback(){
+        super.connectedCallback();
+        this.addEventListener('click', (ev) => {
+            alert('row Clicked')
+        })
+    }
     render() {
         return html`
             ${this.columns.map((x, idx) => html`

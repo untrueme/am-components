@@ -32,20 +32,35 @@ class AmGrid extends LitElement {
                 flex-direction:row;
             }
 
+            #filterContainer{
+                width: 100%;
+                display: flex;
+                flex-direction:row;
+            }
+
             #rowsContainer {
                 flex: 1;
             }
 
             #footerContainer{
-                height: 32px;
-                background:red;
                 display: flex;
                 flex-direction: row;
             }
 
-            #footerContainer ::slotted(*) {
+            .filter {
                 width: 100%;
                 color: green;
+                height: 32px;
+                border-right: 1px solid rgb(220, 222, 225);
+                border-bottom: 1px solid rgb(220, 222, 225);
+            }
+
+            .summary {
+                width: 100%;
+                color: green;
+                height: 32px;
+                border-right: 1px solid rgb(220, 222, 225);
+                border-top: 1px solid rgb(220, 222, 225);
             }
 		`;
     }
@@ -59,21 +74,35 @@ class AmGrid extends LitElement {
         return html`
             <div id="container">
                 <div id="headerContainer">
-                    ${repeat(this.columns, 
-                        (column) => column, 
+                    ${repeat(this.columns,
+                        (column) => column,
                         (column, idx) => html`<slot name=${this._getSlotName(idx)}></slot>`)
+                        }
+                </div>
+                <div id="filterContainer">
+                    ${repeat(this.columns,
+                        (column) => column,
+                        (column, idx) => html`${!column.hidden && this.hasFilter
+                            ? html`<div class="filter">
+                                <slot name=${this._getFilterSlotName(idx)}></slot>
+                            </div>`
+                            : null}`)
                     }
                 </div>
                 <div id="rowsContainer">
-                    ${repeat(this.data, 
-                        (item) => item, 
+                    ${repeat(this.data,
+                        (item) => item,
                         (item, idx) => html`<am-grid-row .columns="${this.columns}" .item="${item}"></am-grid-row>`)
                     }
                 </div>
                 <div id="footerContainer">
-                    ${repeat(this.columns, 
-                        (column) => column, 
-                        (column, idx) => html`${this._getNode(column)}`)
+                    ${repeat(this.columns,
+                        (column) => column,
+                        (column, idx) => html`${!column.hidden 
+                            ? html`<div class="summary">
+                                <slot name=${this._getSummarySlotName(idx)}></slot>
+                            </div>`
+                            : null}`)
                     }
                 </div>
             </div>
@@ -87,8 +116,22 @@ class AmGrid extends LitElement {
     firstUpdated(args) {
         super.firstUpdated(args);
         const columnsNodes = Array.prototype.slice.call(this.querySelectorAll('am-grid-column'));
+
+        const self = this;
         const columns = columnsNodes.map((column, index) => {
             column.setAttribute('slot', `column-${index}`);
+
+            const summary = column.querySelector('am-grid-column-summary');
+            if(summary) {
+                summary.setAttribute('slot', `column-summary-${index}`);
+                self.appendChild(summary);
+            }
+
+            const filter = column.querySelector('am-grid-column-filter');
+            if(filter) {
+                filter.setAttribute('slot', `column-filter-${index}`);
+                self.appendChild(filter);
+            }
 
             column.info = {
                 header: column.header,
@@ -100,15 +143,8 @@ class AmGrid extends LitElement {
 
             return column.info;
         });
-        let data2 = [
-            [
-                { id: 1, fio: 'Иванов Иван Иванович', gender: 'Мужской', birthdate: '2003-06-30T00:00:00.000+04:00' }
-            ],
-            [
-                { id: 2, fio: 'Петрова Лариса Сидоровна', gender: 'Женский', birthdate: '2002-06-30T00:00:00.000+04:00' }
-            ]
-        ]
 
+        this.hasFilter = true;
         let data = [
             [
                 "1",
@@ -123,6 +159,7 @@ class AmGrid extends LitElement {
                 "2021-05-31T00:00:00.000+03:00"
             ]
         ]
+
         this.columns = columns;
         this.data = data;
         this.requestUpdate();
@@ -130,6 +167,14 @@ class AmGrid extends LitElement {
 
     _getSlotName(index) {
         return `column-${index}`;
+    }
+
+    _getSummarySlotName(index) {
+        return `column-summary-${index}`;
+    }
+
+    _getFilterSlotName(index) {
+        return `column-filter-${index}`;
     }
 
 }
