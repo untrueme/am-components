@@ -1,0 +1,19 @@
+{
+  "name": "@am/components",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "flat": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./am-meta.js": "./am-meta.js"
+  },
+  "dependencies": {
+    "chart.js": "^3.2.0",
+    "dayjs": "^1.10.4",
+    "lit": "^2.0.0-rc.1",
+    "mime": "^2.5.2",
+    "lit-icon": "^1.0.1"
+  }
+}
