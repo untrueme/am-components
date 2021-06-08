@@ -14,7 +14,11 @@ class AmGridColumn extends LitElement {
                 type: String
             },
             hidden: {
-                type: Boolean
+                type: Boolean,
+                reflect: true
+            },
+            kind: {
+                type: String
             }
         }
     }
@@ -33,14 +37,22 @@ class AmGridColumn extends LitElement {
                 padding: 0 8px;
                 border-right: 1px solid #DCDEE1;
                 height: 32px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
             :host([hidden]) {
                 display: none;
+            }
+            :host ::slotted(*) {
+                width: 16px;
+                height: 16px;
             }
         `;
     }
     render() {
         return html`
+            <slot name="prefix"></slot>
             ${this.header}
         `;
     }

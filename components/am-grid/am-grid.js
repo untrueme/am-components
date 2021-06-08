@@ -4,7 +4,13 @@ import './am-grid-row.js';
 class AmGrid extends LitElement {
     static get properties() {
         return {
-            data: { type: Array }
+            data: {
+                type: Array,
+                attribute: false
+            },
+            selected: {
+                type: Object
+            }
         }
     }
 
@@ -30,27 +36,32 @@ class AmGrid extends LitElement {
                 width: 100%;
                 display: flex;
                 flex-direction:row;
+                box-sizing: border-box;
             }
 
             #filterContainer{
                 width: 100%;
                 display: flex;
                 flex-direction:row;
+                box-sizing: border-box;
             }
 
             #rowsContainer {
                 flex: 1;
+                overflow: auto;
             }
 
             #footerContainer{
                 display: flex;
                 flex-direction: row;
+                box-sizing: border-box;
             }
 
             .filter {
                 width: 100%;
                 color: green;
                 height: 32px;
+                padding: 0px 8px;
                 border-right: 1px solid rgb(220, 222, 225);
                 border-bottom: 1px solid rgb(220, 222, 225);
             }
@@ -59,6 +70,7 @@ class AmGrid extends LitElement {
                 width: 100%;
                 color: green;
                 height: 32px;
+                padding: 0px 8px;
                 border-right: 1px solid rgb(220, 222, 225);
                 border-top: 1px solid rgb(220, 222, 225);
             }
@@ -70,70 +82,97 @@ class AmGrid extends LitElement {
         this.columns = [];
         this.data = [];
     }
+
+    connectedCallback() {
+        super.connectedCallback();
+        this._observer = new MutationObserver((rec) => {
+            this._columnsChanged();
+        });
+
+        this._observer.observe(this, {
+            attributes: true,
+            childList: true,
+            subtree: true,
+            attributeFilter: ['hidden', 'sort']
+        });
+
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        this._observer.disconnect();
+    }
+
     render() {
         return html`
             <div id="container">
                 <div id="headerContainer">
                     ${repeat(this.columns,
                         (column) => column,
-                        (column, idx) => html`<slot name=${this._getSlotName(idx)}></slot>`)
+                            (column, idx) => html`<slot name=${this._getSlotName(idx)}></slot>`)
                         }
                 </div>
                 <div id="filterContainer">
                     ${repeat(this.columns,
                         (column) => column,
-                        (column, idx) => html`${!column.hidden && this.hasFilter
-                            ? html`<div class="filter">
-                                <slot name=${this._getFilterSlotName(idx)}></slot>
-                            </div>`
+                        (column, idx) => html`${!column.hidden
+                            ? html`
+                                <div class="filter" style="${column.width ? `width:${column.width}px`: null}">
+                                    <slot name=${this._getFilterSlotName(idx)}></slot>
+                                </div>`
                             : null}`)
                     }
                 </div>
                 <div id="rowsContainer">
                     ${repeat(this.data,
                         (item) => item,
-                        (item, idx) => html`<am-grid-row .columns="${this.columns}" .item="${item}"></am-grid-row>`)
+                        (item) => html`<am-grid-row  .columns="${this.columns}" .item="${item}"></slot></am-grid-row>`)
                     }
                 </div>
                 <div id="footerContainer">
                     ${repeat(this.columns,
                         (column) => column,
-                        (column, idx) => html`${!column.hidden 
-                            ? html`<div class="summary">
-                                <slot name=${this._getSummarySlotName(idx)}></slot>
-                            </div>`
-                            : null}`)
+                        (column, idx) => html`${!column.hidden
+                            ? html`<div style="${column.width ? `width:${column.width}px`: null}" class="summary">
+                                        <slot name=${this._getSummarySlotName(idx)}></slot>
+                                    </div>`
+                            : null}`
+                        )
                     }
                 </div>
             </div>
         `;
     }
 
-    _getNode(col) {
-        return col.node.children[0];
-    }
-
     firstUpdated(args) {
         super.firstUpdated(args);
-        const columnsNodes = Array.prototype.slice.call(this.querySelectorAll('am-grid-column'));
+        this._columnsChanged();
+    }
 
+    _columnsChanged() {
+        const columnsNodes = Array.prototype.slice.call(this.querySelectorAll('am-grid-column'));
+        this.hasFilter = false;
+        this.hasSummary = false;
         const self = this;
         const columns = columnsNodes.map((column, index) => {
             column.setAttribute('slot', `column-${index}`);
 
             const summary = column.querySelector('am-grid-column-summary');
-            if(summary) {
+            if (summary) {
                 summary.setAttribute('slot', `column-summary-${index}`);
                 self.appendChild(summary);
             }
 
             const filter = column.querySelector('am-grid-column-filter');
-            if(filter) {
+            if (filter) {
                 filter.setAttribute('slot', `column-filter-${index}`);
                 self.appendChild(filter);
             }
-
+            if(column.width) {
+                column.style.width = column.width + 'px';
+            }
             column.info = {
+                kind: column.kind,
                 header: column.header,
                 field: column.field,
                 width: column.width,
@@ -144,24 +183,7 @@ class AmGrid extends LitElement {
             return column.info;
         });
 
-        this.hasFilter = true;
-        let data = [
-            [
-                "1",
-                "Иванов Иван Иванович",
-                "Мужской",
-                "2003-06-30T00:00:00.000+04:00"
-            ],
-            [
-                "2",
-                "Петрова Лариса Сидоровна",
-                "Женский",
-                "2021-05-31T00:00:00.000+03:00"
-            ]
-        ]
-
         this.columns = columns;
-        this.data = data;
         this.requestUpdate();
     }
 

@@ -1,12 +1,14 @@
 import { LitElement, html, css } from 'lit';
 import './am-grid-cell.js';
 class AmGridRow extends LitElement {
+    
     static get properties() {
         return {
             columns: { type: Array },
             item: { type: Object }
         }
     }
+
     static get styles() {
         return css`
             :host{
@@ -22,16 +24,10 @@ class AmGridRow extends LitElement {
 		`;
     }
 
-    connectedCallback(){
-        super.connectedCallback();
-        this.addEventListener('click', (ev) => {
-            alert('row Clicked')
-        })
-    }
     render() {
         return html`
-            ${this.columns.map((x, idx) => html`
-                <am-grid-cell ?hidden=${x.hidden} .value=${this.item[idx]}></am-grid-cell>`
+            ${this.columns.map((column, idx) => html`
+                <am-grid-cell style="${column.width ? `width:${column.width}px`: null}" .column=${column} ?hidden=${column.hidden} .value=${this.item[idx]}></am-grid-cell>`
             )}
         `;
     }
