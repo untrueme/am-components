@@ -56,6 +56,14 @@ class AmGridColumn extends LitElement {
             ${this.header}
         `;
     }
+
+    getTemplate(){
+        let tpl = this.querySelector('template')?.content.children[0];
+        if(tpl) {
+            return html`${tpl?.cloneNode(true)}`;
+        } 
+        return null;
+    }
 }
 
 customElements.define('am-grid-column', AmGridColumn);

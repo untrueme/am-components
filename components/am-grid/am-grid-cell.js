@@ -31,14 +31,18 @@ class AmGridCell extends LitElement {
     }
 
     _getValue() {
-        if(this.column.kind) {
-            switch(this.column.kind) {
-                case('date'): {
+        let tpl = this.column.node.getTemplate();
+        if (tpl) {
+            return tpl;
+        }
+        if (this.column.kind) {
+            switch (this.column.kind) {
+                case ('date'): {
                     return dayjs(this.value).format('DD.MM.YYYY')
                 }
             }
         }
-        return  this.value;
+        return this.value;
     }
 }
 
