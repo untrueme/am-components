@@ -19,6 +19,10 @@ class AmGridColumn extends LitElement {
             },
             kind: {
                 type: String
+            },
+            template: {
+                type: Object,
+                attribute: false
             }
         }
     }
@@ -57,12 +61,8 @@ class AmGridColumn extends LitElement {
         `;
     }
 
-    getTemplate(){
-        let tpl = this.querySelector('template')?.content.children[0];
-        if(tpl) {
-            return html`${tpl?.cloneNode(true)}`;
-        } 
-        return null;
+    getTemplate() {
+        return this?.template;
     }
 }
 

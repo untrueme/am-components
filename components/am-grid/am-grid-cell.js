@@ -4,7 +4,7 @@ class AmGridCell extends LitElement {
     static get properties() {
         return {
             column: { type: Object },
-            value: { type: String },
+            value: { type: Object },
             hidden: { type: Boolean }
         }
     }
@@ -33,16 +33,21 @@ class AmGridCell extends LitElement {
     _getValue() {
         let tpl = this.column.node.getTemplate();
         if (tpl) {
-            return tpl;
+            return tpl(this.value);
         }
-        if (this.column.kind) {
-            switch (this.column.kind) {
-                case ('date'): {
-                    return dayjs(this.value).format('DD.MM.YYYY')
+
+        if (this.column.field) {
+            if (this.column.kind) {
+                switch (this.column.kind) {
+                    case ('date'): {
+                        return dayjs(this.value[this.column.field]).format('DD.MM.YYYY')
+                    }
                 }
             }
+            return this.value[this.column.field];
         }
-        return this.value;
+
+        return '';
     }
 }
 
