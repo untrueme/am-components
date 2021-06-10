@@ -13,12 +13,13 @@ class AmGridCell extends LitElement {
             :host {
                 display: flex;
                 padding: 0px 8px;
+                box-sizing: border-box;
                 align-items: center;
-                width: 100%;
                 border-right: 1px solid rgb(220, 222, 225);
                 border-bottom: 1px solid rgb(220, 222, 225);
                 overflow: hidden;
                 text-overflow: ellipsis;
+                height: 32px;
             }
 
             :host([hidden]) {

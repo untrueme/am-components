@@ -14,7 +14,7 @@ class AmGridRow extends LitElement {
             :host{
                 display: flex;
                 flex-direction: row;
-                height: 48px;
+                height: 32px;
             }
 
             :host(:hover) {
@@ -27,7 +27,7 @@ class AmGridRow extends LitElement {
     render() {
         return html`
             ${this.columns.map((column) => html`
-                <am-grid-cell style="${column.width ? `width:${column.width}px`: null}" .column=${column} ?hidden=${column.hidden} .value=${this.item}></am-grid-cell>`
+                <am-grid-cell style="${column.width ? `width:${column.width}px`: "flex:1"}" .column=${column} ?hidden=${column.hidden} .value=${this.item}></am-grid-cell>`
             )}
         `;
     }

@@ -93,7 +93,7 @@ class AmGrid extends LitElement {
             attributes: true,
             childList: true,
             subtree: true,
-            attributeFilter: ['hidden', 'sort']
+            attributeFilter: ['hidden', 'width']
         });
 
     }
@@ -112,7 +112,7 @@ class AmGrid extends LitElement {
                             (column, idx) => html`<slot name=${this._getSlotName(idx)}></slot>`)
                         }
                 </div>
-                <div id="filterContainer">
+                <!-- <div id="filterContainer">
                     ${repeat(this.columns,
                         (column) => column,
                         (column, idx) => html`${!column.hidden
@@ -122,18 +122,18 @@ class AmGrid extends LitElement {
                                 </div>`
                             : null}`)
                     }
-                </div>
+                </div> -->
                 <div id="rowsContainer">
                     ${repeat(this.data,
                         (item) => item,
-                        (item) => html`<am-grid-row  .columns="${this.columns}" .item="${item}"></slot></am-grid-row>`)
+                        (item) => html`<am-grid-row .columns="${this.columns}" .item="${item}"></am-grid-row>`)
                     }
                 </div>
                 <div id="footerContainer">
                     ${repeat(this.columns,
                         (column) => column,
                         (column, idx) => html`${!column.hidden
-                            ? html`<div style="${column.width ? `width:${column.width}px`: null}" class="summary">
+                            ? html`<div style="${column.width ? `width:${column.width}px`: 'flex:1'}" class="summary">
                                         <slot name=${this._getSummarySlotName(idx)}></slot>
                                     </div>`
                             : null}`
@@ -170,12 +170,15 @@ class AmGrid extends LitElement {
             }
             if(column.width) {
                 column.style.width = column.width + 'px';
+            } else {
+                column.style.flex = '1';
             }
             column.info = {
                 kind: column.kind,
                 header: column.header,
                 field: column.field,
                 width: column.width,
+                resizable: column.resizable,
                 node: column,
                 hidden: column.hidden || false
             };

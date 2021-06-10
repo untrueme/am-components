@@ -8,7 +8,8 @@ class AmGridColumn extends LitElement {
                 type: String
             },
             width: {
-                type: String
+                type: Number,
+                reflect: true
             },
             field: {
                 type: String
@@ -20,6 +21,9 @@ class AmGridColumn extends LitElement {
             kind: {
                 type: String
             },
+            resizable: {
+                type: Boolean
+            },
             template: {
                 type: Object,
                 attribute: false
@@ -29,20 +33,13 @@ class AmGridColumn extends LitElement {
     static get styles() {
         return css`
             :host{
-                width: 100%;;
-                color: black;
-                font-weight:bold;
+                box-sizing: border-box;
                 flex-direction: row;
-                overflow: hidden;
                 display: flex;
                 align-items: center;
                 background: rgb(32, 156, 238);
                 color: white;
-                padding: 0 8px;
-                border-right: 1px solid #DCDEE1;
-                height: 32px;
-                white-space: nowrap;
-                text-overflow: ellipsis;
+                min-height: 32px;
                 overflow: hidden;
             }
             :host([hidden]) {
@@ -52,17 +49,49 @@ class AmGridColumn extends LitElement {
                 width: 16px;
                 height: 16px;
             }
+
+            .header {
+                font-weight:bold;
+                text-overflow: ellipsis;
+                width: 100%;
+                padding: 0 8px;
+            }
+
+            .resizer{
+                cursor: ew-resize;
+                border-right: 1px solid #DCDEE1;
+                height: 100%;
+                width:2px;
+            }
         `;
     }
     render() {
         return html`
-            <slot name="prefix"></slot>
-            ${this.header}
+            <span class="header"><slot name="prefix"></slot>${this.header}</span>
+            ${this.resizable ? html`<span class="resizer" @mousedown="${this.onResize}"></span>` : null}
         `;
     }
 
     getTemplate() {
         return this?.template;
+    }
+
+    onResize(event) {
+        if (!this.width) this.width = this.offsetWidth;
+        this._resizeBase = { baseSize: this.width, baseMoveOffset: event.screenX };
+        event.preventDefault();
+        const moveHandler = (event) => {
+            this.width = Math.max(50, this._resizeBase.baseSize + (event.screenX - this._resizeBase.baseMoveOffset));
+        };
+        const removeHandlers = () => {
+            document.removeEventListener('mousemove', moveHandler);
+            document.removeEventListener('mouseup', upHandler);
+        };
+        const upHandler = (event) => {
+            removeHandlers();
+        };
+        document.addEventListener('mousemove', moveHandler);
+        document.addEventListener('mouseup', upHandler);
     }
 }
 
