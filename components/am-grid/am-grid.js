@@ -1,6 +1,8 @@
 import { LitElement, html, css } from 'lit';
 import { repeat } from 'lit/directives/repeat.js';
 import './am-grid-row.js';
+import './am-grid-column.js';
+
 class AmGrid extends LitElement {
     static get properties() {
         return {
@@ -26,7 +28,6 @@ class AmGrid extends LitElement {
             }
 
             #container {
-                width: 100%;
                 height: 100%;
                 display: flex;
                 flex-direction: column;
@@ -37,6 +38,7 @@ class AmGrid extends LitElement {
                 display: flex;
                 flex-direction:row;
                 box-sizing: border-box;
+                background: rgb(32, 156, 238);
             }
 
             #filterContainer{
@@ -86,7 +88,9 @@ class AmGrid extends LitElement {
     connectedCallback() {
         super.connectedCallback();
         this._observer = new MutationObserver((rec) => {
-            this._columnsChanged();
+            window.requestAnimationFrame(()=>{
+                this._columnsChanged()
+            })
         });
 
         this._observer.observe(this, {
@@ -111,6 +115,7 @@ class AmGrid extends LitElement {
                         (column) => column,
                             (column, idx) => html`<slot name=${this._getSlotName(idx)}></slot>`)
                         }
+                    <am-grid-column style="width:16px" width=16></am-grid-column>
                 </div>
                 <!-- <div id="filterContainer">
                     ${repeat(this.columns,
@@ -129,7 +134,7 @@ class AmGrid extends LitElement {
                         (item) => html`<am-grid-row .columns="${this.columns}" .item="${item}"></am-grid-row>`)
                     }
                 </div>
-                <div id="footerContainer">
+                <!-- <div id="footerContainer">
                     ${repeat(this.columns,
                         (column) => column,
                         (column, idx) => html`${!column.hidden
@@ -139,7 +144,7 @@ class AmGrid extends LitElement {
                             : null}`
                         )
                     }
-                </div>
+                </div> -->
             </div>
         `;
     }
@@ -170,6 +175,7 @@ class AmGrid extends LitElement {
             }
             if(column.width) {
                 column.style.width = column.width + 'px';
+                column.style.flex = null;
             } else {
                 column.style.flex = '1';
             }
@@ -187,6 +193,10 @@ class AmGrid extends LitElement {
         });
 
         this.columns = columns;
+        const totalWidth = columns.map(x => x.width).reduce((a, b) => a + b, 0);
+        if(!Number.isNaN(totalWidth)) {
+            this.shadowRoot.querySelector('#container').style.width = `${totalWidth}px` 
+        }
         this.requestUpdate();
     }
 
