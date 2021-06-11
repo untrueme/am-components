@@ -37,7 +37,6 @@ class AmGridColumn extends LitElement {
                 flex-direction: row;
                 display: flex;
                 align-items: center;
-                background: rgb(32, 156, 238);
                 color: white;
                 min-height: 32px;
                 overflow: hidden;
