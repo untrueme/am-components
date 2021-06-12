@@ -33,12 +33,21 @@ class AmGrid extends LitElement {
                 flex-direction: column;
             }
 
-            #headerContainer{
+            #headerContainer {
                 width: 100%;
+                background: rgb(32, 156, 238);
+            }
+
+            #headerScrollContainer{
                 display: flex;
                 flex-direction:row;
                 box-sizing: border-box;
                 background: rgb(32, 156, 238);
+            }
+
+            #scrollContainer {
+                overflow-y: auto;
+                overflow-x: hidden;
             }
 
             #filterContainer{
@@ -100,6 +109,9 @@ class AmGrid extends LitElement {
             attributeFilter: ['hidden', 'width']
         });
 
+        this.addEventListener('scroll', () => {
+            this._columnsChanged()
+        });
     }
 
     disconnectedCallback() {
@@ -111,28 +123,31 @@ class AmGrid extends LitElement {
         return html`
             <div id="container">
                 <div id="headerContainer">
-                    ${repeat(this.columns,
-                        (column) => column,
-                            (column, idx) => html`<slot name=${this._getSlotName(idx)}></slot>`)
-                        }
-                    <am-grid-column style="width:16px" width=16></am-grid-column>
+                    <div id="headerScrollContainer">
+                            ${repeat(this.columns,
+                                (column) => column,
+                                (column, idx) => html`<slot name=${this._getSlotName(idx)}></slot>`)
+                            }
+                    </div>
                 </div>
-                <!-- <div id="filterContainer">
-                    ${repeat(this.columns,
-                        (column) => column,
-                        (column, idx) => html`${!column.hidden
-                            ? html`
-                                <div class="filter" style="${column.width ? `width:${column.width}px`: null}">
-                                    <slot name=${this._getFilterSlotName(idx)}></slot>
-                                </div>`
-                            : null}`)
-                    }
-                </div> -->
-                <div id="rowsContainer">
-                    ${repeat(this.data,
-                        (item) => item,
-                        (item) => html`<am-grid-row .columns="${this.columns}" .item="${item}"></am-grid-row>`)
-                    }
+                    <div id="scrollContainer">
+                    <!-- <div id="filterContainer">
+                        ${repeat(this.columns,
+                            (column) => column,
+                            (column, idx) => html`${!column.hidden
+                                ? html`
+                                    <div class="filter" style="${column.width ? `width:${column.width}px`: null}">
+                                        <slot name=${this._getFilterSlotName(idx)}></slot>
+                                    </div>`
+                                : null}`)
+                        }
+                    </div> -->
+                    <div id="rowsContainer">
+                        ${repeat(this.data,
+                            (item) => item,
+                            (item) => html`<am-grid-row .columns="${this.columns}" .item="${item}"></am-grid-row>`)
+                        }
+                    </div>
                 </div>
                 <!-- <div id="footerContainer">
                     ${repeat(this.columns,
@@ -195,8 +210,15 @@ class AmGrid extends LitElement {
         this.columns = columns;
         const totalWidth = columns.map(x => x.width).reduce((a, b) => a + b, 0);
         if(!Number.isNaN(totalWidth)) {
-            this.shadowRoot.querySelector('#container').style.width = `${totalWidth}px` 
+            this.shadowRoot.querySelector('#container').style.width = `${Math.min(this.scrollWidth, this.clientWidth + this.scrollLeft)}px`;
+            this.shadowRoot.querySelector('#rowsContainer').style.width = `${totalWidth}px`;
+            this.shadowRoot.querySelector('#headerScrollContainer').style.width = `${totalWidth}px`;
+            this.shadowRoot.querySelector('#headerScrollContainer').style.paddingRight = '0';
+
+        } else {
+            this.shadowRoot.querySelector('#headerScrollContainer').style.paddingRight = '16px';
         }
+        
         this.requestUpdate();
     }
 
