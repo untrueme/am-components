@@ -46,7 +46,7 @@ class AmGrid extends LitElement {
             }
 
             #scrollContainer {
-                overflow-y: auto;
+                overflow-y: scroll;
                 overflow-x: hidden;
             }
 
@@ -216,7 +216,6 @@ class AmGrid extends LitElement {
             this.shadowRoot.querySelector('#headerScrollContainer').style.paddingRight = '0';
         } else {
             this.shadowRoot.querySelector('#headerScrollContainer').style.paddingRight = '16px';
-            this.shadowRoot.querySelector('#rowsContainer').style.paddingRight = '16px';
         }
         
         this.requestUpdate();
