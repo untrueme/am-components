@@ -5,7 +5,6 @@ class AmGridCell extends LitElement {
         return {
             column: { type: Object },
             value: { type: Object },
-            hidden: { type: Boolean },
             fixed: { type: Boolean, reflect: true },
             title: { type: String, reflect: true}
         }
@@ -32,10 +31,6 @@ class AmGridCell extends LitElement {
                 overflow: inherit;
                 text-overflow: inherit;
                 margin: 0;
-            }
-
-            :host([hidden]) {
-                display: none;
             }
 
             :host([fixed]) {

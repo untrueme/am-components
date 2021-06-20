@@ -43,7 +43,7 @@ class AmGridRow extends LitElement {
     render() {
         return html`
             ${this.columns.map((column) => html`
-                <am-grid-cell ?fixed="${column.fixed}" style="${column.width ? `width:${column.width}px` : "flex:1"}" .column=${column} ?hidden=${column.hidden} .value=${this.item}></am-grid-cell>`
+                <am-grid-cell ?fixed="${column.fixed}" style="${column.width ? `width:${column.width}px` : "flex:1"}" .column=${column} .value=${this.item}></am-grid-cell>`
         )}
         `;
     }
