@@ -6,7 +6,9 @@ class AmGridRow extends LitElement {
         return {
             columns: { type: Array },
             item: { type: Object },
-            active: { type: Boolean, reflect: true }
+            active: { type: Boolean, reflect: true },
+            tpl: {type: Object},
+            expanded: { type: Boolean, reflect: true}
         }
     }
 
@@ -14,38 +16,60 @@ class AmGridRow extends LitElement {
         return css`
             :host{
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
                 min-height: 32px;
-                box-sizing: border-box;
+                border-bottom: 1px solid rgb(220, 222, 225);
             }
 
-
             :host(:hover) am-grid-cell{
-                background: #DCDEE1;
+                background: #f5f5f5;
                 font-weight:bold;
                 white-space: normal;
+                display: flex;
+                flex-direction: row
             }
 
             :host([active]) am-grid-cell{
                 white-space: normal;
+                background: #f5f5f5;
+            }
+
+            .cellContainer {
+                width: 100%;
+                display: flex;
+            }
+
+            .expandContainer {
+                overflow: hidden;
+                display: flex;
+                padding: 4px;
             }
 		`;
     }
 
     connectedCallback(){
         super.connectedCallback();
-
-        this.addEventListener('click', (ev) => {
-            this.active = true;
-        })
     }
 
     render() {
         return html`
-            ${this.columns.map((column) => html`
-                <am-grid-cell ?fixed="${column.fixed}" style="${column.width ? `width:${column.width}px` : "flex:1"}" .column=${column} .value=${this.item}></am-grid-cell>`
-        )}
+            <div class="cellContainer">
+                ${this.columns.map((column) => html`
+                    <am-grid-cell ?fixed="${column.fixed}" style="${column.width ? `width:${column.width}px` : "flex:1"}" .column=${column} .value=${this.item}></am-grid-cell>`
+                )}
+            </div>
+            ${this.expanded ? html`<div class="expandContainer">${this.tpl && this.tpl(this.item)}</div>` : null}
         `;
+    }
+
+    collapse(){
+        this.expanded = false;
+    }
+
+    expand(){
+        if(this.tpl) {
+            this.expanded = true;
+        }
     }
 }
 

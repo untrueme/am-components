@@ -16,8 +16,6 @@ class AmGridCell extends LitElement {
                 padding: 4px;
                 box-sizing: border-box;
                 align-items: center;
-                border-right: 1px solid rgb(220, 222, 225);
-                border-bottom: 1px solid rgb(220, 222, 225);
                 min-height: 32px;
                 background: white;
                 color: black;

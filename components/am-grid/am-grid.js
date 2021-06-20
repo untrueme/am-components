@@ -12,6 +12,10 @@ class AmGrid extends LitElement {
             },
             selected: {
                 type: Object
+            },
+            expandTemplate: {
+                type: Object,
+                attribute: false
             }
         }
     }
@@ -99,9 +103,9 @@ class AmGrid extends LitElement {
                     </div>
                 </div>
                 <div id="rowsContainer">
-                    ${repeat(this.data,
+                        ${repeat(this.data,
                             (item) => item,
-                            (item) => html`<am-grid-row  .columns="${this.columns}" .item="${item}"></am-grid-row>`)
+                            (item) => html`<am-grid-row .tpl=${this.expandTemplate} @click="${this.onRowClick}" .columns="${this.columns}" .item="${item}"></am-grid-row>`)
                         }
                     </div>
                 </div>
@@ -121,6 +125,25 @@ class AmGrid extends LitElement {
             }
         });
         this._columnsChanged();
+    }
+
+    onRowClick(event) {
+        let paths = event.composedPath();
+        if(paths.find((path) => path.className == 'expandContainer')) {
+            return
+        }
+        const rows = Array.prototype.slice.call(this.shadowRoot.querySelectorAll('am-grid-row'));
+        rows.forEach(row => {
+            if(row != event.target) {
+                row.active = false;
+                row.collapse();
+            }
+        });
+        event.target.active = true;
+        if(event.target.tpl) {
+            event.target.expanded = !event.target.expanded;
+        }
+        this.requestUpdate();
     }
 
     _columnsChanged() {
