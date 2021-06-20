@@ -46,6 +46,7 @@ class AmGrid extends LitElement {
 
             #header{
                 display: flex;
+                width: 100%;
             }
 
             .row {
@@ -110,8 +111,14 @@ class AmGrid extends LitElement {
 
     firstUpdated(args) {
         super.firstUpdated(args);
-        this.shadowRoot.querySelector('#container').addEventListener('scroll', () => {
-            this._columnsChanged();
+        this.shadowRoot.querySelector('#container').addEventListener('scroll', (ev) => {
+            this._lastScrollLeft = this.shadowRoot.querySelector('#container').scrollLeft || 0;
+            if(this.shadowRoot.querySelector('#container').scrollLeft > this._lastScrollLeft) {
+                window.requestAnimationFrame(()=>{
+                    this._columnsChanged()
+                    this._lastScrollLeft = this.shadowRoot.querySelector('#container').scrollLeft;
+                });
+            }
         });
         this._columnsChanged();
     }
