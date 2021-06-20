@@ -5,30 +5,48 @@ class AmGridCell extends LitElement {
         return {
             column: { type: Object },
             value: { type: Object },
-            hidden: { type: Boolean }
+            hidden: { type: Boolean },
+            fixed: { type: Boolean, reflect: true },
+            title: { type: String, reflect: true}
         }
     }
     static get styles() {
         return css`
             :host {
                 display: flex;
-                padding: 0px 8px;
+                padding: 4px;
                 box-sizing: border-box;
                 align-items: center;
                 border-right: 1px solid rgb(220, 222, 225);
                 border-bottom: 1px solid rgb(220, 222, 225);
+                min-height: 32px;
+                background: white;
+                color: black;
+                white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                height: 32px;
+            }
+
+            :host span{
+                white-space: inherit;
+                overflow: inherit;
+                text-overflow: inherit;
+                margin: 0;
             }
 
             :host([hidden]) {
                 display: none;
             }
+
+            :host([fixed]) {
+                position: sticky;
+				left: 0px;
+                top: 0;
+            }
 		`;
     }
     render() {
-        return html`${this._getValue()}`;
+        return html`<span>${this._getValue()}</span>`;
     }
 
     _getValue() {
@@ -41,10 +59,11 @@ class AmGridCell extends LitElement {
             if (this.column.kind) {
                 switch (this.column.kind) {
                     case ('date'): {
-                        return dayjs(this.value[this.column.field]).format('DD.MM.YYYY')
+                        return dayjs(this.value[this.column.field]).format('DD.MM.YYYY');
                     }
                 }
             }
+            this.title = this.value[this.column.field];
             return this.value[this.column.field];
         }
 

@@ -27,6 +27,10 @@ class AmGridColumn extends LitElement {
             template: {
                 type: Object,
                 attribute: false
+            },
+            fixed: {
+                type: Boolean,
+                reflect: true
             }
         }
     }
@@ -40,10 +44,25 @@ class AmGridColumn extends LitElement {
                 color: white;
                 min-height: 32px;
                 overflow: hidden;
+                background: rgb(28, 39, 61);
+                z-index: 2;
+                font-weight: 500;
+				border: none;
+				position: sticky;
+				top: 0px;
             }
+
             :host([hidden]) {
                 display: none;
             }
+
+            :host([fixed]) {
+                z-index: 3;
+                left: 0;
+                top: 0;
+                will-change: transform;
+            }
+
             :host ::slotted(*) {
                 width: 16px;
                 height: 16px;
