@@ -28,7 +28,6 @@ class AmGrid extends LitElement {
                 height: 100%;
 				overflow: auto;
 				box-sizing: border-box;
-				border: 1px solid #484848;
             }
 
             #container {
