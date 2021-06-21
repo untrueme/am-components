@@ -28,6 +28,7 @@ class AmGrid extends LitElement {
                 height: 100%;
 				overflow: auto;
 				box-sizing: border-box;
+                box-shadow: 0 0 10px 0 rgb(180 188 212 / 30%);
             }
 
             #container {
@@ -167,7 +168,7 @@ class AmGrid extends LitElement {
             };
 
             if(column.fixed) {
-                column.style.left = index == 0 ? 0 : column.style.width;
+                column.style.left = index == 0 ? 0 : columnsNodes[index - 1].style.width;
             }
 
             return column.info;
@@ -185,7 +186,7 @@ class AmGrid extends LitElement {
         rows.forEach((row) => {
             const fixedCells = Array.prototype.slice.call(row.shadowRoot.querySelectorAll('[fixed]'));
             fixedCells.forEach((fixedCell, cellidx) => {
-                fixedCell.style.left = cellidx == 0 ? '0px' : fixedCell.style.width;
+                fixedCell.style.left = cellidx == 0 ? '0px' : fixedCells[cellidx - 1].style.width;
             });
         });
 

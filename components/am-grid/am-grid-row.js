@@ -49,7 +49,7 @@ class AmGridRow extends LitElement {
                 width: 100%;
                 display: flex;
                 min-height: fit-content;
-                padding: 4px;
+                padding: 0px 8px;
                 overflow: hidden;
                 -webkit-animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 	            animation: slide-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
