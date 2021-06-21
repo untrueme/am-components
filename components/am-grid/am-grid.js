@@ -16,6 +16,10 @@ class AmGrid extends LitElement {
             expandTemplate: {
                 type: Object,
                 attribute: false
+            },
+            noFit: {
+                type: Boolean,
+                reflect: true
             }
         }
     }
@@ -31,10 +35,17 @@ class AmGrid extends LitElement {
                 box-shadow: 0 0 10px 0 rgb(180 188 212 / 30%);
             }
 
+            :host([no-fit]) {
+                height: auto;
+            }
+
+            :host([no-fit]) #container {
+                height: auto;
+            }
             #container {
 				display: flex;
-				height: 100%;
 				width: 100%;
+                height: 100%;
 				flex-direction: column;
                 overflow: auto;
             }
@@ -58,7 +69,6 @@ class AmGrid extends LitElement {
             }
 
             #rowsContainer {
-                flex: 1;
             }
 		`;
     }
