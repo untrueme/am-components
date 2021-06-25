@@ -1,6 +1,13 @@
-import { LitElement } from 'lit';
+import { css, LitElement } from 'lit';
 
 class AmFetch extends LitElement {
+    static get styles() {
+        return css`
+            :host {
+                display:none;
+            }
+        `
+    }
     static get properties() {
         return {
             endpoint: { type: String },
