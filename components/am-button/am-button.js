@@ -27,6 +27,7 @@ export class AmButton extends LitElement {
 				height: 32px;
 				background: #209CEE;
 				color: white;
+				user-select: none;
 			}
 
 			:host([hidden]) {

@@ -1,0 +1,66 @@
+:root{
+    --nv-base-size-xs: 16px;
+    --nv-base-size-s: 24px;
+    --nv-base-size-m: 32px;
+    --nv-base-size-l: 40px;
+
+    --nv-base-gap-s: 4px;
+    --nv-base-gap-m: 8px;
+    --nv-base-gap-l: 12px;
+    --nv-base-gap-xl: 16px;
+            
+    --nv-font-sm: normal 12px 'Open Sans';
+    --nv-font-md: normal 14px 'Open Sans';
+    --nv-font-lg: normal 14px 'Open Sans';
+
+    --nv-font-bold-sm: normal 12px 'Open Sans SemiBold';
+    --nv-font-bold-md: normal 14px 'Open Sans SemiBold';
+    --nv-font-bold-lg: normal 14px 'Open Sans SemiBold';
+
+    --nv-line-height-sm: 12px;
+    --nv-line-height-md: 19px;
+    --nv-line-height-lg: 19px;
+
+
+    --nv-height-sm: 24px;
+    --nv-height-md: 32px;
+    --nv-height-lg: 40px;
+
+    --nv-padding-x-sm: 8px;
+    --nv-padding-x-md: 10px;
+    --nv-padding-x-lg: 12px;
+
+    --nv-padding-y-sm: 4px;
+    --nv-padding-y-md: 6px;
+    --nv-padding-y-lg: 8px;
+
+    --nv-input-default-width: 300px;
+
+    --nv-icon-size-sm: 12px;
+    --nv-icon-size-md: 16px;
+    --nv-icon-size-lg: 16px;
+  
+    --nv-primary:hsla(232, 67%, 58%, 1);
+    --nv-primary-hue: 232;
+    --nv-primary-saturation: 67%;
+    --nv-primary-lightness: 58%;
+
+    --nv-text1: hsl(var(--nv-primary-hue) var(--nv-primary-saturation) 10%);
+    --nv-text2: hsl(var(--nv-primary-hue) 30% 30%);
+
+    --surface1: hsl(var(--nv-primary-hue) 25% 90%);
+    --surface2: hsl(var(--nv-primary-hue) 20% 99%);
+    --surface3: hsl(var(--nv-primary-hue) 20% 92%);
+    --surface4: hsl(var(--nv-primary-hue) 20% 85%);
+
+    --nv-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+
+    --nv-default:hsla(220, 26%, 96%, 1);
+    --nv-default-hue: 220;
+    --nv-default-saturation: 26%;
+    --nv-default-lightness: 96%;
+}
+
+body {
+    background-color: var(--surface1);
+}

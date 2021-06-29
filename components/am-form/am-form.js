@@ -18,6 +18,10 @@ class AmForm extends LitElement {
 				font-size: 12px;
 				width: 100%;
 				height: 100%;
+				background: white;
+				border-radius: 4px;
+				padding: 16px;
+				overflow: hidden;
 			}
 
 			:host([hidden]) {

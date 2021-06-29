@@ -25,6 +25,22 @@ class AmAppBar extends LitElement {
                 align-items: center;
                 flex-direction: column;
             }
+
+            @media (min-width: 320px) and (max-width: 768px) {
+                :host {
+                    flex-direction: row;
+                    width: 100% !important;
+                    height: 48px
+                }
+                .menu-top {
+                    padding: 0;
+                    flex-direction: row;
+                }
+                .menu-bottom {
+                    padding: 0;
+                    flex-direction: row;
+                }
+            }
         `
     }
 

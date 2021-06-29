@@ -13,7 +13,7 @@ class AmGridCell extends LitElement {
         return css`
             :host {
                 display: flex;
-                padding: 4px;
+                padding: 0px 8px; 
                 box-sizing: border-box;
                 align-items: center;
                 min-height: 32px;
