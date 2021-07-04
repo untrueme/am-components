@@ -45,6 +45,7 @@ class AmFlexLayout extends LitElement {
                 gap: 8px;
                 position: relative;
                 flex-direction: row;
+                align-items: flex-start;
             }
 
 
