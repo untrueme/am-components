@@ -25,9 +25,11 @@ class AmDrawer extends LitElement {
                 position: fixed;
                 background: #fff;
                 box-shadow: var(--nv-box-shadow);
-                top: 0px;
                 will-change: contents;
                 z-index: 999;
+                top: 0px;
+                box-sizing: border-box;
+                visibility: hidden;
             }
 
             .container.contained  {
@@ -36,11 +38,12 @@ class AmDrawer extends LitElement {
 
             .container.left  {
                 left: -130%;
-                transition: left .4s cubic-bezier(0.820, 0.085, 0.195, 0.895);
+                transition: ease 0.5s;
             }
 
             .container.left.opened  {
                 left: 0px;
+                visibility: visible;
             }
 
             .container.right  {
@@ -50,6 +53,7 @@ class AmDrawer extends LitElement {
 
             .container.right.opened  {
                 right: 0px;
+                visibility: visible;
             }
         `
     }

@@ -19,6 +19,10 @@ class AmFlexLayout extends LitElement {
             fitVertical: {
                 type: Boolean,
                 reflect: false
+            },
+            scrollable: {
+                type: Boolean,
+                reflect: false
             }
         };
     }
@@ -34,58 +38,43 @@ class AmFlexLayout extends LitElement {
     static get styles() {
         return css`
             :host {
-                position: relative;
-                height: 100%;
-                width: 100%;
-            }
-
-            :host .layout {
                 box-sizing: border-box;
                 display: flex;
                 width: fit-content;
                 height: fit-content;
                 gap: 8px;
-                align-items: start;
-            }
-
-            :host .layout.horizontal {
-                -ms-flex-direction: row;
-                -webkit-flex-direction: row;
+                position: relative;
                 flex-direction: row;
             }
 
-            :host .layout.fit-horizontal {
-                width: 100%;
+
+            :host([fit-horizontal]) {
+                width: 100% !important;
             }
 
-            :host .layout.vertical {
+            :host([vertical]) {
                 -ms-flex-direction: column;
                 -webkit-flex-direction: column;
                 flex-direction: column;
             }
 
-            :host .layout.fit-vertical {
-               height: 100%;
+            :host([fit-vertical]) {
+               height: 100% !important;
             }
 
-            :host .wrap {
+            :host([wrap]) {
                 flex-wrap: wrap;
+            }
+
+            :host([scrollable]) {
+                overflow: auto
             }
        `;
     }
 
     render() {
         return html`
-            <div class=${classMap({
-                'layout': true,
-                'horizontal': !this.vertical,
-                'vertical': this.vertical,
-                'wrap': this.wrap,
-                'fit-vertical': this.fitVertical,
-                'fit-horizontal': this.fitHorizontal
-            })}>
-                <slot></slot>
-            </div>
+            <slot></slot>
         `;
     }
 }
