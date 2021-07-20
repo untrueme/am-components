@@ -67,9 +67,6 @@ class AmGrid extends LitElement {
             .row {
                 display: flex
             }
-
-            #rowsContainer {
-            }
 		`;
     }
 
@@ -83,8 +80,8 @@ class AmGrid extends LitElement {
         super.connectedCallback();
 
         this._observer = new MutationObserver((rec) => {
-            window.requestAnimationFrame(()=>{
-                this._columnsChanged()
+            window.requestAnimationFrame(() => {
+                this._columnsChanged();
             })
         });
 
@@ -106,10 +103,10 @@ class AmGrid extends LitElement {
             <div id="container">
                 <div id="headerContainer">
                     <div id="header">
-                            ${repeat(this.columns,
-                                (column) => column,
-                                (column, idx) => html`<slot name=${this._getSlotName(idx)}></slot>`)
-                            }
+                        ${repeat(this.columns,
+                            (column) => column,
+                            (column, idx) => html`<slot name=${this._getSlotName(idx)}></slot>`)
+                        }
                     </div>
                 </div>
                 <div id="rowsContainer">
@@ -126,11 +123,15 @@ class AmGrid extends LitElement {
     firstUpdated(args) {
         super.firstUpdated(args);
         this.shadowRoot.querySelector('#container').addEventListener('scroll', (ev) => {
-            this._lastScrollLeft = this.shadowRoot.querySelector('#container').scrollLeft || 0;
-            if(this.shadowRoot.querySelector('#container').scrollLeft > this._lastScrollLeft) {
-                window.requestAnimationFrame(()=>{
-                    this._columnsChanged()
-                    this._lastScrollLeft = this.shadowRoot.querySelector('#container').scrollLeft;
+            if (this.shadowRoot.querySelector('#container').scrollLeft > 0) {
+                window.requestAnimationFrame(() => {
+                    const rows = Array.prototype.slice.call(this.shadowRoot.querySelectorAll('am-grid-row'));
+                    rows.forEach((row) => {
+                        const fixedCells = Array.prototype.slice.call(row.shadowRoot.querySelectorAll('[fixed]'));
+                        fixedCells.forEach((fixedCell, cellidx) => {
+                            fixedCell.style.left = cellidx == 0 ? '0px' : fixedCells[cellidx - 1].style.width;
+                        });
+                    });
                 });
             }
         });
@@ -139,18 +140,18 @@ class AmGrid extends LitElement {
 
     onRowClick(event) {
         let paths = event.composedPath();
-        if(paths.find((path) => path.className == 'expandContainer')) {
+        if (paths.find((path) => path.className == 'expandContainer')) {
             return
         }
         const rows = Array.prototype.slice.call(this.shadowRoot.querySelectorAll('am-grid-row'));
         rows.forEach(row => {
-            if(row != event.target) {
+            if (row != event.target) {
                 row.active = false;
                 row.collapse();
             }
         });
         event.target.active = true;
-        if(event.target.tpl) {
+        if (event.target.tpl) {
             event.target.expanded = !event.target.expanded;
         }
         this.requestUpdate();
@@ -160,8 +161,8 @@ class AmGrid extends LitElement {
         const columnsNodes = Array.prototype.slice.call(this.querySelectorAll('am-grid-column:not([hidden])'));
         const columns = columnsNodes.map((column, index) => {
             column.setAttribute('slot', `column-${index}`);
-           
-            if(column.width) {
+
+            if (column.width) {
                 column.style.width = column.width + 'px';
                 column.style.flex = null;
             } else {
@@ -177,8 +178,9 @@ class AmGrid extends LitElement {
                 fixed: column.fixed || false
             };
 
-            if(column.fixed) {
+            if (column.fixed) {
                 column.style.left = index == 0 ? 0 : columnsNodes[index - 1].style.width;
+                column.left = index == 0 ? 0 : columnsNodes[index - 1].style.width;
             }
 
             return column.info;
@@ -186,19 +188,11 @@ class AmGrid extends LitElement {
 
         this.columns = columns;
         const totalWidth = columns.map(x => x.width).reduce((a, b) => a + b, 0);
-        if(!Number.isNaN(totalWidth)) {
+        if (!Number.isNaN(totalWidth)) {
             this.shadowRoot.querySelector('#container').style.width = `${Math.min(this.scrollWidth, this.clientWidth + this.scrollLeft)}px`;
             this.shadowRoot.querySelector('#header').style.width = `${totalWidth}px`;
             this.shadowRoot.querySelector('#rowsContainer').style.width = `${totalWidth}px`;
-        }
-        
-        const rows = Array.prototype.slice.call(this.shadowRoot.querySelectorAll('am-grid-row'));
-        rows.forEach((row) => {
-            const fixedCells = Array.prototype.slice.call(row.shadowRoot.querySelectorAll('[fixed]'));
-            fixedCells.forEach((fixedCell, cellidx) => {
-                fixedCell.style.left = cellidx == 0 ? '0px' : fixedCells[cellidx - 1].style.width;
-            });
-        });
+        }       
 
         this.requestUpdate();
     }

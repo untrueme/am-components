@@ -1,7 +1,9 @@
 import { LitElement, html, css } from 'lit';
-import './am-grid-cell.js';
-class AmGridRow extends LitElement {
+import { styleMap } from 'lit/directives/style-map.js';
 
+import './am-grid-cell.js';
+
+class AmGridRow extends LitElement {
     static get properties() {
         return {
             columns: { type: Array },
@@ -41,9 +43,6 @@ class AmGridRow extends LitElement {
                 z-index: 1;
             }
 
-            .expandContainer  {
-            }
-
             .expandContainer .expanded {
                 height: auto;
                 width: 100%;
@@ -73,9 +72,20 @@ class AmGridRow extends LitElement {
 
     render() {
         return html`
+
             <div class="cellContainer">
                 ${this.columns.map((column) => html`
-                    <am-grid-cell ?fixed="${column.fixed}" style="${column.width ? `width:${column.width}px` : "flex:1"}" .column=${column} .value=${this.item}></am-grid-cell>`
+                    <am-grid-cell 
+                        ?fixed="${column.fixed}" 
+                        style=${styleMap({ 
+                                width: column.width ? column.width + 'px': null, 
+                                flex: !column.width ? 1 : null ,
+                                left: column.left ? column.left : null
+                            })
+                        }
+                        .column=${column} 
+                        .value=${this.item}>
+                    </am-grid-cell>`
         )}
             </div>
             <div class="expandContainer">
