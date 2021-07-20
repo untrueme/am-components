@@ -15,21 +15,20 @@ class AmAppMenu extends LitElement {
         return css`
             :host {
                 position: absolute;
-                overflow:hidden;
+                overflow: hidden;
                 width: 300px;
                 height: 100%;
                 top: 0;
                 right: 0;
                 bottom: 0;
                 left:0;
-                box-shadow: 8px 0 20px 0 rgba(150, 160, 173, 0.2);
                 will-change: contents;
-                transform: translate3d(-100px, 0, 0);
-                border-left: 1px solid #42436A;
+                transform: translate3d(-130%, 0px, 0px);
+                border-left: 1px solid rgb(66, 67, 106);
                 visibility: hidden;
                 flex-direction: column;
-                z-index: 4;
-                transition: ease 0.5s;
+                z-index: 5;
+                transition: all 0.2s ease-in 0s;
             }
 
             :host([opened]) {

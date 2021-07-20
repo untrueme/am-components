@@ -12,7 +12,7 @@ class AmAppBar extends LitElement {
                 position: relative;
                 color: white;
                 flex-shrink: 0;
-                z-index:1;
+                z-index:5;
             }
 
             .menu-top {

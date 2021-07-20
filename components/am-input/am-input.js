@@ -38,7 +38,6 @@ class AmInput extends LitNotify(LitElement) {
 
 	static get properties() {
 		return {
-			_input: { type: Object },
 			value: { type: String, notify: true },
 			placeHolder: { type: String }
 		};
