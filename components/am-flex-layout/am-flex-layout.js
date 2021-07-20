@@ -6,23 +6,23 @@ class AmFlexLayout extends LitElement {
         return {
             vertical: {
                 type: Boolean,
-                reflect: false
+                reflect: true
             },
             wrap: {
                 type: Boolean,
-                reflect: false
+                reflect: true
             },
             fitHorizontal: {
                 type: Boolean,
-                reflect: false
+                reflect: true
             },
             fitVertical: {
                 type: Boolean,
-                reflect: false
+                reflect: true
             },
             scrollable: {
                 type: Boolean,
-                reflect: false
+                reflect: true
             }
         };
     }
