@@ -20,6 +20,9 @@ class AmGrid extends LitElement {
             noFit: {
                 type: Boolean,
                 reflect: true
+            },
+            tree: {
+                type: Boolean
             }
         }
     }
@@ -32,7 +35,6 @@ class AmGrid extends LitElement {
                 height: 100%;
 				overflow: auto;
 				box-sizing: border-box;
-                box-shadow: 0 0 10px 0 rgb(180 188 212 / 30%);
             }
 
             :host([no-fit]) {
@@ -78,6 +80,13 @@ class AmGrid extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
+        
+        this.addEventListener('tree-node-toggle', (ev) => {
+            let childs = this.data.filter(x => x.parent_id == ev.detail.id);
+            childs.forEach((el) => {
+                el._opened = !el._opened;
+            })
+        });
 
         this._observer = new MutationObserver((rec) => {
             window.requestAnimationFrame(() => {
@@ -112,7 +121,7 @@ class AmGrid extends LitElement {
                 <div id="rowsContainer">
                         ${repeat(this.data,
                             (item) => item,
-                            (item) => html`<am-grid-row .tpl=${this.expandTemplate} @click="${this.onRowClick}" .columns="${this.columns}" .item="${item}"></am-grid-row>`)
+                            (item) => html`<am-grid-row ?hidden=${item._opened} ?tree="${this.tree}" .tpl=${this.expandTemplate} @click="${this.onRowClick}" .columns="${this.columns}" .item="${item}"></am-grid-row>`)
                         }
                     </div>
                 </div>
@@ -122,19 +131,6 @@ class AmGrid extends LitElement {
 
     firstUpdated(args) {
         super.firstUpdated(args);
-        this.shadowRoot.querySelector('#container').addEventListener('scroll', (ev) => {
-            if (this.shadowRoot.querySelector('#container').scrollLeft > 0) {
-                window.requestAnimationFrame(() => {
-                    const rows = Array.prototype.slice.call(this.shadowRoot.querySelectorAll('am-grid-row'));
-                    rows.forEach((row) => {
-                        const fixedCells = Array.prototype.slice.call(row.shadowRoot.querySelectorAll('[fixed]'));
-                        fixedCells.forEach((fixedCell, cellidx) => {
-                            fixedCell.style.left = cellidx == 0 ? '0px' : fixedCells[cellidx - 1].style.width;
-                        });
-                    });
-                });
-            }
-        });
         this._columnsChanged();
     }
 
@@ -179,8 +175,8 @@ class AmGrid extends LitElement {
             };
 
             if (column.fixed) {
-                column.style.left = index == 0 ? 0 : columnsNodes[index - 1].style.width;
-                column.left = index == 0 ? 0 : columnsNodes[index - 1].style.width;
+                column.style.left = index == 0 ? 0 : columnsNodes[index - 1].width + 'px';
+                column.info.left = index == 0 ? 0 : columnsNodes[index - 1].width + 'px';
             }
 
             return column.info;

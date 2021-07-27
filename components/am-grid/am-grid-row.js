@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
 
 import './am-grid-cell.js';
+import './am-grid-tree-cell.js';
 
 class AmGridRow extends LitElement {
     static get properties() {
@@ -10,7 +11,9 @@ class AmGridRow extends LitElement {
             item: { type: Object },
             active: { type: Boolean, reflect: true },
             tpl: { type: Object },
-            expanded: { type: Boolean, reflect: true }
+            expanded: { type: Boolean, reflect: true },
+            tree: { type: Boolean },
+            hidden: { type: Boolean, reflect: true },
         }
     }
 
@@ -24,15 +27,18 @@ class AmGridRow extends LitElement {
                 border-bottom: 1px solid rgb(220, 222, 225);
             }
 
-            :host(:hover) am-grid-cell{
+            :host([hidden]) {
+                display: none;
+            }
+
+            :host(:hover) am-grid-cell, :host(:hover) am-grid-tree-cell{
                 background: #f5f5f5;
                 font-weight:bold;
                 white-space: normal;
-                display: flex;
                 flex-direction: row
             }
 
-            :host([active]) am-grid-cell{
+            :host([active]) am-grid-cell, :host([active]) am-grid-tree-cell{
                 white-space: normal;
                 background: #f5f5f5;
             }
@@ -72,21 +78,21 @@ class AmGridRow extends LitElement {
 
     render() {
         return html`
-
             <div class="cellContainer">
+                ${this.tree ? html`<am-grid-tree-cell .item=${this.item} ?opened=${this.item._opened} .level=${this.item._level} ?leaf=${this.item._leaf}></am-grid-tree-cell>` : null}
                 ${this.columns.map((column) => html`
                     <am-grid-cell 
                         ?fixed="${column.fixed}" 
-                        style=${styleMap({ 
-                                width: column.width ? column.width + 'px': null, 
-                                flex: !column.width ? 1 : null ,
-                                left: column.left ? column.left : null
+                        style=${styleMap({
+                                width: column.width ? column.width + 'px' : null,
+                                flex: !column.width ? 1 : null,
+                                left: column.left ? column.left : null,
                             })
                         }
                         .column=${column} 
                         .value=${this.item}>
                     </am-grid-cell>`
-        )}
+            )}
             </div>
             <div class="expandContainer">
                 ${this.expanded ? html`<div class="expanded">${this.tpl && this.tpl(this.item)}</div>` : null}
