@@ -76,16 +76,18 @@ class AmGrid extends LitElement {
         super();
         this.columns = [];
         this.data = [];
+        this.vdata = [];
     }
 
     connectedCallback() {
         super.connectedCallback();
         
         this.addEventListener('tree-node-toggle', (ev) => {
-            let childs = this.data.filter(x => x.parent_id == ev.detail.id);
-            childs.forEach((el) => {
-                el._opened = !el._opened;
-            })
+            if (ev.detail.item._opened) {
+                this.showChilds(ev.detail.item);
+            } else {
+                this.hideChilds(ev.detail.item);
+            }
         });
 
         this._observer = new MutationObserver((rec) => {
@@ -102,9 +104,52 @@ class AmGrid extends LitElement {
         });
     }
 
+    showChilds(item) {
+        const pendingShow = [];
+        const vindex = this.vdata.indexOf(item);
+        const addData = this.data.filter((i, c) => {
+            if (i.parent_id == item.id && item !== null) {
+                i._level = item._level + 1;
+                if (i._opened) pendingShow.push(i);
+                i._pitem = item;
+                return true;
+            }
+        });
+        if (addData.length > 0) {
+            this.vdata.splice(vindex + 1, 0, ...addData);
+            item._childsCount = addData.length;
+            while (item._pitem) {
+                item._pitem._childsCount += item._childsCount;
+                item = item._pitem;
+            }
+            pendingShow.forEach(i => this.showChilds(i));
+        }
+    }
+
+    hideChilds(item) {
+        const vindex = this.vdata.indexOf(item);
+        this.vdata.splice(vindex + 1, item._childsCount);
+        while (item._pitem) {
+            item._pitem._childsCount -= item._childsCount;
+            item = it._pitem;
+        }
+
+        item._childsCount = null;
+    }
+
     disconnectedCallback() {
         super.disconnectedCallback();
         this._observer.disconnect();
+    }
+    
+    willUpdate(args) {
+        if(args.get('data')) {
+            if(this.tree) {
+                this.vdata = this.data.filter(x => x._level == 0);
+            } else {
+                this.vdata = this.data;
+            }
+        }
     }
 
     render() {
@@ -119,9 +164,9 @@ class AmGrid extends LitElement {
                     </div>
                 </div>
                 <div id="rowsContainer">
-                        ${repeat(this.data,
+                        ${repeat(this.vdata,
                             (item) => item,
-                            (item) => html`<am-grid-row ?hidden=${item._opened} ?tree="${this.tree}" .tpl=${this.expandTemplate} @click="${this.onRowClick}" .columns="${this.columns}" .item="${item}"></am-grid-row>`)
+                            (item) => html`<am-grid-row  ?tree="${this.tree}" .tpl=${this.expandTemplate} @click="${this.onRowClick}" .columns="${this.columns}" .item="${item}"></am-grid-row>`)
                         }
                     </div>
                 </div>

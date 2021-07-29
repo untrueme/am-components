@@ -17,7 +17,6 @@ class AmGridTreeCell extends LitElement {
                 box-sizing: border-box;
                 align-items: center;
                 min-height: 32px;
-                min-width: 32px;
                 background: white;
                 color: black;
                 white-space: nowrap;
@@ -30,6 +29,7 @@ class AmGridTreeCell extends LitElement {
                 overflow: inherit;
                 text-overflow: inherit;
                 margin: 0;
+                width: 8px;
             }
 
             :host([hidden]) {
@@ -38,26 +38,25 @@ class AmGridTreeCell extends LitElement {
 		`;
     }
     render() {
-        return html`<span style=${this._getPadding()}  @click="${this.onTreeCellClick}">${this._getValue()}</span>`;
-    }
-
-    _getValue() {
-        if (this.leaf) {
-            return '';
-        }
-        
-        return this.opened ? '+' : '-';
+        return html`
+                <span style=${this._getPadding()} @click="${this.onTreeCellClick}">
+                    ${this.leaf ? ' ' : this.opened ? '-': '+'}
+                </span>`;
     }
 
     _getPadding() {
-        return `padding-left: ${this.level * 30 + 'px'}`;
+        return `padding-left: ${this.level * 24 + 'px'}`;
     }
 
     onTreeCellClick() {
+        this.item._opened = !this.item._opened;
+        this.opened = !this.opened;
         this.dispatchEvent(new CustomEvent('tree-node-toggle', {
             bubbles: true,
             composed: true,
-            detail: this.item
+            detail: {
+                item: this.item
+            }
         }));
     }
 }
