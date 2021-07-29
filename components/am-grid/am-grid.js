@@ -2,6 +2,8 @@ import { LitElement, html, css } from 'lit';
 import { repeat } from 'lit/directives/repeat.js';
 import './am-grid-row.js';
 import './am-grid-column.js';
+import { AmGridTreeController } from "./am-grid-tree-controller.js";
+import { AmGridExpandController } from "./am-grid-expand-controller.js";
 
 class AmGrid extends LitElement {
     static get properties() {
@@ -81,14 +83,13 @@ class AmGrid extends LitElement {
 
     connectedCallback() {
         super.connectedCallback();
-        
-        this.addEventListener('tree-node-toggle', (ev) => {
-            if (ev.detail.item._opened) {
-                this.showChilds(ev.detail.item);
-            } else {
-                this.hideChilds(ev.detail.item);
-            }
-        });
+        if(this.tree) {
+            this.treeController = new AmGridTreeController(this);
+        }
+
+        if(this.expandTemplate) {
+            this.expandController = new AmGridExpandController(this);
+        }
 
         this._observer = new MutationObserver((rec) => {
             window.requestAnimationFrame(() => {
@@ -104,47 +105,14 @@ class AmGrid extends LitElement {
         });
     }
 
-    showChilds(item) {
-        const pendingShow = [];
-        const vindex = this.vdata.indexOf(item);
-        const addData = this.data.filter((i, c) => {
-            if (i.parent_id == item.id && item !== null) {
-                i._level = item._level + 1;
-                if (i._opened) pendingShow.push(i);
-                i._pitem = item;
-                return true;
-            }
-        });
-        if (addData.length > 0) {
-            this.vdata.splice(vindex + 1, 0, ...addData);
-            item._childsCount = addData.length;
-            while (item._pitem) {
-                item._pitem._childsCount += item._childsCount;
-                item = item._pitem;
-            }
-            pendingShow.forEach(i => this.showChilds(i));
-        }
-    }
-
-    hideChilds(item) {
-        const vindex = this.vdata.indexOf(item);
-        this.vdata.splice(vindex + 1, item._childsCount);
-        while (item._pitem) {
-            item._pitem._childsCount -= item._childsCount;
-            item = it._pitem;
-        }
-
-        item._childsCount = null;
-    }
-
     disconnectedCallback() {
         super.disconnectedCallback();
         this._observer.disconnect();
     }
-    
+
     willUpdate(args) {
-        if(args.get('data')) {
-            if(this.tree) {
+        if (args.get('data')) {
+            if (this.tree) {
                 this.vdata = this.data.filter(x => x._level == 0);
             } else {
                 this.vdata = this.data;
@@ -158,16 +126,16 @@ class AmGrid extends LitElement {
                 <div id="headerContainer">
                     <div id="header">
                         ${repeat(this.columns,
-                            (column) => column,
-                            (column, idx) => html`<slot name=${this._getSlotName(idx)}></slot>`)
-                        }
+            (column) => column,
+            (column, idx) => html`<slot name=${this._getSlotName(idx)}></slot>`)
+            }
                     </div>
                 </div>
                 <div id="rowsContainer">
                         ${repeat(this.vdata,
-                            (item) => item,
-                            (item) => html`<am-grid-row  ?tree="${this.tree}" .tpl=${this.expandTemplate} @click="${this.onRowClick}" .columns="${this.columns}" .item="${item}"></am-grid-row>`)
-                        }
+                (item) => item,
+                (item) => html`<am-grid-row ?tree="${this.tree}" .tpl=${this.expandTemplate} .columns="${this.columns}" .item="${item}"></am-grid-row>`)
+            }
                     </div>
                 </div>
             </div>
@@ -177,25 +145,6 @@ class AmGrid extends LitElement {
     firstUpdated(args) {
         super.firstUpdated(args);
         this._columnsChanged();
-    }
-
-    onRowClick(event) {
-        let paths = event.composedPath();
-        if (paths.find((path) => path.className == 'expandContainer')) {
-            return
-        }
-        const rows = Array.prototype.slice.call(this.shadowRoot.querySelectorAll('am-grid-row'));
-        rows.forEach(row => {
-            if (row != event.target) {
-                row.active = false;
-                row.collapse();
-            }
-        });
-        event.target.active = true;
-        if (event.target.tpl) {
-            event.target.expanded = !event.target.expanded;
-        }
-        this.requestUpdate();
     }
 
     _columnsChanged() {
@@ -233,7 +182,7 @@ class AmGrid extends LitElement {
             this.shadowRoot.querySelector('#container').style.width = `${Math.min(this.scrollWidth, this.clientWidth + this.scrollLeft)}px`;
             this.shadowRoot.querySelector('#header').style.width = `${totalWidth}px`;
             this.shadowRoot.querySelector('#rowsContainer').style.width = `${totalWidth}px`;
-        }       
+        }
 
         this.requestUpdate();
     }

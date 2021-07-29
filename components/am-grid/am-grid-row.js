@@ -67,13 +67,9 @@ class AmGridRow extends LitElement {
 		`;
     }
 
-    connectedCallback() {
-        super.connectedCallback();
-    }
-
     render() {
         return html`
-            <div class="cellContainer">
+            <div class="cellContainer" @click="${this.onClick}">
                 ${this.tree ? html`<am-grid-tree-cell .item=${this.item} ?opened=${this.item._opened} .level=${this.item._level} ?leaf=${this.item._leaf}></am-grid-tree-cell>` : null}
                 ${this.columns.map((column) => html`
                     <am-grid-cell 
@@ -93,6 +89,19 @@ class AmGridRow extends LitElement {
                 ${this.expanded ? html`<div class="expanded">${this.tpl && this.tpl(this.item)}</div>` : null}
             </div>
         `;
+    }
+
+    onClick(event){
+        if(this.tpl) {
+            this.dispatchEvent(new CustomEvent('expand-node-toggle', {
+                bubbles: true,
+                composed: true,
+                detail: {
+                    item: this
+                }
+            }));
+    
+        }
     }
 
     collapse() {

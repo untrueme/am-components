@@ -13,7 +13,7 @@ class AmGridTreeCell extends LitElement {
         return css`
             :host {
                 display: flex;
-                padding: 0px 8px; 
+                padding: 0px 0 0 8px; 
                 box-sizing: border-box;
                 align-items: center;
                 min-height: 32px;
