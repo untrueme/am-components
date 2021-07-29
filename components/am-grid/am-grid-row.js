@@ -31,16 +31,11 @@ class AmGridRow extends LitElement {
                 display: none;
             }
 
-            :host(:hover) am-grid-cell, :host(:hover) am-grid-tree-cell{
-                background: #f5f5f5;
+            :host(:hover) am-grid-cell, :host(:hover) am-grid-tree-cell, :host([active]) am-grid-cell, :host([active]) am-grid-tree-cell{
+                white-space: normal;
+                background: #d3d3d3;
                 font-weight:bold;
-                white-space: normal;
-                flex-direction: row
-            }
-
-            :host([active]) am-grid-cell, :host([active]) am-grid-tree-cell{
-                white-space: normal;
-                background: #f5f5f5;
+                flex-direction: row;
             }
 
             .cellContainer {
