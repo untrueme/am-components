@@ -13,6 +13,9 @@ export class AmGridTreeController {
     }
 
     onTreeNodeToggle(ev){
+        if(ev.detail.item._leaf) {
+            return;
+        }
         if (ev.detail.item._opened) {
             this.showChilds(ev.detail.item);
         } else {
