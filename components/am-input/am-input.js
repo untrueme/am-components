@@ -4,34 +4,48 @@ import LitNotify from '../../mixins/lit-notify.js'
 class AmInput extends LitNotify(LitElement) {
 	static get styles() {
 		return css`
-			* {
-				box-sizing: border-box;
-			}
 			:host {
 				display: inline-block;
 				position: relative;
+                box-sizing: border-box;
+                border: 1px solid var(--grey-light);
+                box-sizing: border-box;
+                border-radius: 4px;
+			}
+
+            :host([disabled]) {
+                color: var(--grey-dark);
+                cursor: not-allowed;
+                pointer-events: none;
+            }
+
+            :host([disabled]) input{
+                background: var(--grey-lightest);
+            }
+
+
+            :host(:hover) {
+                border: 1px solid var(--grey-dark);
+			}
+
+            :host(:active) {
+                border: 1px solid var(--primary-base);
 			}
 
 			input {
+                box-sizing: border-box;
 				width: 250px;
 				height: 32px;
 				padding: 12px 12px;
-				border: 1px solid black;
-				background-color: white
-			}
-			input:focus {
-				border: 1px solid #4d90fe;
+                border: none;
+                outline:none;
+                font-size: 14px;
+                line-height: 150%;
 			}
 
 			/* Placeholder color */
 			::placeholder {
-				color: var(--lit-input-placeholder-color, #a0a0a0);
-			}
-			:-ms-input-placeholder {
-				color: var(--lit-input-placeholder-color, #a0a0a0);
-			}
-			::-ms-input-placeholder {
-				color: var(--lit-input-placeholder-color, #a0a0a0);
+				color: var(--grey-dark)
 			}
     	`;
 	}
@@ -85,6 +99,8 @@ class AmInput extends LitNotify(LitElement) {
 	}
 
 	_onKeyUp(event) {
+		this.focus()
+
 		this.value = this._input.value;
 		// If Enter key pressed, fire 'enter-pressed'
 		if (event.keyCode == 13) {

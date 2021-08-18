@@ -4,78 +4,127 @@ export class AmButton extends LitElement {
 	static get properties() {
 		return {
 			label: { type: String },
-			disabled: { type: Boolean, reflect: true }
+			disabled: { type: Boolean, reflect: true },
+			variant: {
+                type: String,
+                value: 'default'
+            },
+            size: {
+                type: String,
+                value: 'medium'
+            },
+            role: {
+                type: String,
+                reflect: true
+            },
+            tabindex: {
+                type: String,
+                reflect: true
+            }
 		}
 	}
 
 	static get styles() {
 		return css`
 			:host {
-				display: inline-flex;
-				align-items: center;
-				justify-content: center;
-				position: relative;
-				box-sizing: border-box;
-				background: transparent;
-				outline-width: 0;
-				cursor: pointer;
-				font-weight: normal;
-				white-space: nowrap;
-				min-width: fit-content;
-				line-height: 32px;
-				padding: 12px 12px;
-				height: 32px;
-				background: #209CEE;
-				color: white;
-				user-select: none;
-			}
+            display: inline-flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 12px;
+            height: 32px;
+            min-width: fit-content;
+            box-sizing: border-box;
+            border-radius: 4px;
+            color: #FFFFFF;
+            user-select: none;
+            cursor: pointer;
+            outline:none;
+        }
 
-			:host([hidden]) {
-				display: none !important;
-			}
+        .prefix {
+            display: flex;
+        }
 
-			:host([disabled]) {
-				background: #f5f7f8;
-				color: lightgray;
-				cursor: default;
-				pointer-events: none;
-				user-select: none;
-			}
+        .prefix ::slotted(*) {
+            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+        }
 
-			:host(:hover) {
-				background: #1c273d
-			}
+        .suffix {
+            display: flex;
+        }
 
-			:host .prefix {
-				display: flex;
-			}
+        .suffix ::slotted(*) {
+            margin-left: 8px;
+            width: 16px;
+            height: 16px;
+        }
 
-			:host .prefix ::slotted(*) {
-				margin-right: 8px;
-				width: 16px;
-				height: 16px;
-			}
+        /* primary */
 
-			:host .suffix {
-				display: flex;
-			}
+        :host([variant=primary]) {
+            background: var(--primary-base);
+        }
 
-			:host .suffix ::slotted(*) {
-				margin-left: 8px;
-				width: 16px;
-				height: 16px;
-			}
+        :host([variant=primary]:hover),:host([variant=primary]:focus) {
+            background: var(--primary-dark);
+            outline:none;
+        }
+
+        :host([variant=primary]:active) {
+            background: var(--primary-darkest);
+        }
+
+        :host([disabled][variant=primary]) {
+            background: var(--grey-light);
+            border: none;
+            color: var(--grey-dark);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+
+        /* secondary */
+        :host([variant=secondary]) {
+            background: transparent;
+            color: var(--primary-base);
+            border: 1px solid var(--primary-light);
+            
+        }
+
+        :host([variant=secondary]:hover),:host([variant=secondary]:focus) {
+            background: var(--primary-lightest);
+            border: 1px solid var(--primary-light);
+            box-sizing: border-box;
+            outline:none;
+        }
+
+        :host([variant=secondary]:active) {
+            background: var(--primary-light);
+            border: 1px solid var(--primary-darkest);
+            box-sizing: border-box;
+        }
+
+        :host([disabled][variant=secondary]) {
+            background: transparent;
+            border: 1px solid var(--grey-light);
+            color: var(--grey-dark);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
 		`;
 	}
 	render() {
 		return html`
-		<span class="prefix">
-			<slot name="prefix"></slot>
-		</span>
-		<span>${this.label}</span>
-		<span class="suffix">
-			<slot name="suffix"></slot>
-		</span>
+			<span class="prefix">
+				<slot name="prefix"></slot>
+			</span>
+			<span>${this.label}</span>
+			<span class="suffix">
+				<slot name="suffix"></slot>
+			</span>
         `;
 	}
 }

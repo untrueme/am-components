@@ -14,7 +14,7 @@ class AmBadge extends LitElement {
            :host {
                 display: inline-flex;
 				align-items: center;
-				background-color: rgb(14, 165, 233);
+				background-color: var(--primary-base);
 				box-sizing: border-box;
 				border-radius:18px;
 				color: rgb(255, 255, 255);
@@ -35,7 +35,7 @@ class AmBadge extends LitElement {
 
 			@keyframes pulse {
 				0% {
-					box-shadow: 0 0 0 0 rgb(14, 165, 233);;
+					box-shadow: 0 0 0 0 var(--primary-light);
 				}
 				70% {
 					box-shadow: 0 0 0 0.5rem transparent;

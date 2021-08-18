@@ -4,11 +4,14 @@
     --nv-base-size-m: 32px;
     --nv-base-size-l: 40px;
 
-    --nv-base-gap-s: 4px;
-    --nv-base-gap-m: 8px;
-    --nv-base-gap-l: 12px;
-    --nv-base-gap-xl: 16px;
-            
+    --nv-base-gap-xs: 4px;
+    --nv-base-gap-s: 8px;
+    --nv-base-gap-m: 12px;
+    --nv-base-gap-l: 16px;
+    --nv-base-gap-xl: 24px;
+    --nv-base-gap-xxl: 32px;
+    --nv-base-gap-xxxl: 48px;
+
     --nv-font-sm: normal 12px 'Open Sans';
     --nv-font-md: normal 14px 'Open Sans';
     --nv-font-lg: normal 14px 'Open Sans';
@@ -38,7 +41,7 @@
 
     --nv-icon-size-sm: 12px;
     --nv-icon-size-md: 16px;
-    --nv-icon-size-lg: 16px;
+    --nv-icon-size-lg: 24px;
   
     --nv-primary:hsla(232, 67%, 58%, 1);
     --nv-primary-hue: 232;
@@ -59,6 +62,24 @@
     --nv-default-hue: 220;
     --nv-default-saturation: 26%;
     --nv-default-lightness: 96%;
+
+
+
+    --primary-base: #6C75DC;
+    --primary-dark: #5A62B7;
+    --primary-darkest: #484F94;
+    --primary-light:#ADB2E9;
+    --primary-lightest: #EFF1FF;
+
+
+    --grey-base: #CBCED7;
+    --grey-dark: #ACB1C1;
+    --grey-light: #E1E5EB;
+    --grey-lightest: #F6F8FA;
+
+    --white: #fff;
+    --black-base: #000;
+
 }
 
 body {

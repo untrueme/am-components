@@ -50,7 +50,7 @@ class MyElement extends LitNotify(LitElement) {
 		return html`
 			<div style="margin: 16px">
 				<h1>Hello, ${this.elementData}!</h1>
-				<am-button label="Clicks: ${this.count}" @click=${this._onClick}></am-button>
+				<am-button variant="secondary" label="Clicks: ${this.count}" @click=${this._onClick}></am-button>
 				<slot></slot>
 			</div>
 		`;

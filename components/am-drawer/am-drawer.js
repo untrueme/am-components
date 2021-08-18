@@ -6,7 +6,8 @@ class AmDrawer extends LitElement {
         return {
             opened: { type: Boolean },
             position: { type: String },
-            contained: { type: Boolean }
+            contained: { type: Boolean },
+            size: { type: String }
         }
     }
     constructor() {
@@ -61,14 +62,14 @@ class AmDrawer extends LitElement {
     render() {
         return html`
             <div class=${classMap({
-                'container': true,
-                'left': this.position == 'left',
-                'right': this.position == 'right',
-                'opened': this.opened,
-                'contained': this.contained
-            })}>
+            'container': true,
+            'left': this.position == 'left',
+            'right': this.position == 'right',
+            'opened': this.opened,
+            'contained': this.contained
+        })}>
                 <slot></slot>
-                <am-button label="close" @click="${this.close}"></am-button>
+                <am-button variant="secondary" label="close" @click="${this.close}"></am-button>
             </div>
 		`;
     }
