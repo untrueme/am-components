@@ -4,22 +4,28 @@ class AmFlexLayout extends LitElement {
     static get properties() {
         return {
             vertical: {
-                type: Boolean
+                type: Boolean,
+                reflect: true
             },
             wrap: {
-                type: Boolean
+                type: Boolean,
+                reflect: true
             },
             fit: {
-                type: String
+                type: String,
+                reflect: true
             },
             scrollable: {
-                type: Boolean
+                type: Boolean,
+                reflect: true
             },
             align: {
-                type: String
+                type: String,
+                reflect: true
             },
             justify: {
-                type: String
+                type: String,
+                reflect: true
             }
         };
     }
