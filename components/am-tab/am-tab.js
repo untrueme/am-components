@@ -38,6 +38,7 @@ class AmTab extends LitElement {
 				font-weight: 500;
 				font-size: 14px;
 				font-family: 'Golos Bold';
+				line-height: 150%;
 			}
 			
 			.content {

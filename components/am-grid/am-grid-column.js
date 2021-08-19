@@ -47,7 +47,6 @@ class AmGridColumn extends LitElement {
                 color: var(--black-lightest);
                 z-index: 2;
                 font-weight: 500;
-                border-top: 1px solid var(--grey-light);
                 border-bottom: 1px solid var(--grey-light);
                 border-right: 1px solid var(--grey-light);
 				position: sticky;

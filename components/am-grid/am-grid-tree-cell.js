@@ -23,6 +23,7 @@ class AmGridTreeCell extends LitElement {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 cursor: pointer;
+                border-bottom: 1px solid var(--grey-light);
             }
 
             :host span{
