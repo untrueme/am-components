@@ -16,20 +16,35 @@ class AmDrawer extends LitElement {
         this.opened = false;
         this.contained = false;
         this.position = 'left';
+        this.size = 'small';
     }
 
     static get styles() {
         return css`
             .container {
-                width: 320px;
                 height: 100%;
                 position: fixed;
-                background: #fff;
+                background: rgb(255, 255, 255);
                 will-change: contents;
                 z-index: 999;
                 top: 0px;
                 box-sizing: border-box;
                 visibility: hidden;
+                display: flex;
+                flex-direction: column;
+                transition: ease 0.2s;
+            }
+
+            :host([size=small]) .container{
+                width: 320px;
+            }
+
+            :host([size=medium]) .container{
+                width: 560px;
+            }
+
+            :host([size=large]) .container{
+                width: 920px;
             }
 
             .container.contained  {
@@ -38,7 +53,25 @@ class AmDrawer extends LitElement {
 
             .container.left  {
                 left: -130%;
-                transition: ease 0.2s;
+            }
+
+            .scrim {
+              position: absolute;
+              top: 0;
+              right: 0;
+              bottom: 0;
+              left: 0;
+              background: var(--black-dark);
+              opacity: 0;              
+              transition: opacity 220ms;
+              z-index: 100;
+              display: none;
+            }
+
+            .scrim.opened {
+              opacity: 0.3;
+              display: block;
+              box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
             }
 
             .container.left.opened  {
@@ -48,7 +81,6 @@ class AmDrawer extends LitElement {
 
             .container.right  {
                 right: -130%;
-                transition: ease 0.2s;
             }
 
             .container.right.opened  {
@@ -59,10 +91,10 @@ class AmDrawer extends LitElement {
             .header {
                 display: flex;
                 flex-direction: row;
-                align-items: baseline;
-                height: 48px;
+                align-items: center;
+                height: 64px;
                 box-sizing: border-box;
-                margin: 16px 16px 0px 16px;
+                margin: 0 16px 0px;
                 justify-content: space-between;
             }
 
@@ -80,13 +112,12 @@ class AmDrawer extends LitElement {
                 border-bottom: 1px solid var(--grey-light);
             }
 
-            .footer{
+            .footer ::slotted(*) {
                 display: flex;
                 flex-direction: row;
-                align-items: baseline;
-                height: 48px;
                 box-sizing: border-box;
-                margin: 16px 16px 0px 16px;
+                padding: 8px;
+                height: 48px;
             }
         `
     }
@@ -94,12 +125,16 @@ class AmDrawer extends LitElement {
     render() {
         return html`
             <div class=${classMap({
-            'container': true,
-            'left': this.position == 'left',
-            'right': this.position == 'right',
-            'opened': this.opened,
-            'contained': this.contained
-        })}>
+                'scrim': true,
+                'opened': this.opened
+            })}></div>
+            <div class=${classMap({
+                'container': true,
+                'left': this.position == 'left',
+                'right': this.position == 'right',
+                'opened': this.opened,
+                'contained': this.contained
+            })}>
                 <div class="header">
                     <span class="header-text">${this.header}</span>
                     <lit-icon iconset="iconset-32" size="32" icon="close" @click="${this.close}"></lit-icon>
@@ -108,7 +143,7 @@ class AmDrawer extends LitElement {
                     <slot></slot>
                 </div>
                 <div class="footer">
-                    <slot></slot>
+                    <slot name="footer"></slot>
                 </div>
             </div>
 		`;
