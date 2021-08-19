@@ -33,7 +33,7 @@ class AmGridRow extends LitElement {
 
             :host(:hover) am-grid-cell, :host(:hover) am-grid-tree-cell, :host([active]) am-grid-cell, :host([active]) am-grid-tree-cell{
                 white-space: normal;
-                background: #d3d3d3;
+                background: var(--primary-lightest);
                 font-weight:bold;
                 flex-direction: row;
             }
