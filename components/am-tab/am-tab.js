@@ -10,8 +10,6 @@ class AmTab extends LitElement {
 	static get styles() {
 		return css`
 			:host {
-				--color-line: #dedede;
-				--color-inactive: #f1f1f1;
 				height: 100%;
 				width: 100%;
 			}
@@ -35,8 +33,11 @@ class AmTab extends LitElement {
 			
 			.tab-bar {
 				display: flex;
-				height: 36px;
-				border-bottom: 1px solid var(--color-line);
+				height: 48px;
+				border-bottom: 1px solid var(--grey-light);
+				font-weight: 500;
+				font-size: 14px;
+				font-family: 'Golos Bold';
 			}
 			
 			.content {
@@ -54,17 +55,15 @@ class AmTab extends LitElement {
 			}
 			
 			.tab {
-				user-select: none;
-				background: var(--color-inactive);
-				border: 1px solid var(--color-line);
+				color: var(--black-lightest);
 				padding: 10px 16px;
-				margin-right: -1px;
-				margin-bottom: -1px;
+				cursor: pointer;
+				transition: color .4s ease-in-out, border-color .4s ease-in-out, background-color .4s ease-in-out;
 			}
 			
 			.tab-selected { 
-				background: white;
-				border-bottom: 0;
+				color: var(--black-dark);
+				border-bottom: 2px solid var(--primary-base);
 			}
       `;
 	}
@@ -91,7 +90,7 @@ class AmTab extends LitElement {
 				<nav class="tab-bar">
 				${this.tabs.map(tab => html`
 					<span class=${partMap({ tab: true, 'tab-selected': tab.selected })} @click=${ev => this.selectTab(tab)}>
-					${tab.title}
+					${tab.header}
 					</span>
 				`)}
 				</nav>

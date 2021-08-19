@@ -3,13 +3,16 @@ import { LitElement, html, css } from 'lit';
 class AmTabItem extends LitElement {
 	static get properties() {
 		return {
-			title: { type: String },
+			header: { type: String },
 			selected: { type: Boolean, reflect: true }
 		}
 	}
 
 	static get styles() {
 		return css`
+			:host() {
+				cursor:pointer;
+			}
 			:host(:not([selected])) {
 				display: none;
 			}

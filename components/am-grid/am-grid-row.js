@@ -24,7 +24,7 @@ class AmGridRow extends LitElement {
                 flex-direction: column;
                 min-height: 32px;
                 background: white;
-                border-bottom: 1px solid rgb(220, 222, 225);
+
             }
 
             :host([hidden]) {

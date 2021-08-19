@@ -7,7 +7,8 @@ class AmDrawer extends LitElement {
             opened: { type: Boolean },
             position: { type: String },
             contained: { type: Boolean },
-            size: { type: String }
+            size: { type: String },
+            header: { type: String }
         }
     }
     constructor() {
@@ -20,12 +21,10 @@ class AmDrawer extends LitElement {
     static get styles() {
         return css`
             .container {
-                padding: 16px;
-                width: 300px;
+                width: 320px;
                 height: 100%;
                 position: fixed;
                 background: #fff;
-                box-shadow: var(--nv-box-shadow);
                 will-change: contents;
                 z-index: 999;
                 top: 0px;
@@ -39,7 +38,7 @@ class AmDrawer extends LitElement {
 
             .container.left  {
                 left: -130%;
-                transition: ease 0.5s;
+                transition: ease 0.2s;
             }
 
             .container.left.opened  {
@@ -49,12 +48,45 @@ class AmDrawer extends LitElement {
 
             .container.right  {
                 right: -130%;
-                transition: right .4s cubic-bezier(0.820, 0.085, 0.395, 0.895);
+                transition: ease 0.2s;
             }
 
             .container.right.opened  {
                 right: 0px;
                 visibility: visible;
+            }
+
+            .header {
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                height: 48px;
+                box-sizing: border-box;
+                margin: 16px 16px 0px 16px;
+                justify-content: space-between;
+            }
+
+            .header-text {
+                font-style: normal;
+                font-weight: 500;
+                font-size: 18px;
+                line-height: 150%;
+                color: var(--black-dark);
+            }
+
+            .content {
+                height: 100%;
+                border-top: 1px solid var(--grey-light);
+                border-bottom: 1px solid var(--grey-light);
+            }
+
+            .footer{
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                height: 48px;
+                box-sizing: border-box;
+                margin: 16px 16px 0px 16px;
             }
         `
     }
@@ -68,8 +100,16 @@ class AmDrawer extends LitElement {
             'opened': this.opened,
             'contained': this.contained
         })}>
-                <slot></slot>
-                <am-button variant="secondary" label="close" @click="${this.close}"></am-button>
+                <div class="header">
+                    <span class="header-text">${this.header}</span>
+                    <lit-icon iconset="iconset-32" size="32" icon="close" @click="${this.close}"></lit-icon>
+                </div>
+                <div class="content">
+                    <slot></slot>
+                </div>
+                <div class="footer">
+                    <slot></slot>
+                </div>
             </div>
 		`;
     }

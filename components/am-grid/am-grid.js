@@ -37,6 +37,7 @@ class AmGrid extends LitElement {
                 height: 100%;
 				overflow: auto;
 				box-sizing: border-box;
+                border: 1px solid var(--grey-light);
             }
 
             :host([no-fit]) {
@@ -58,7 +59,7 @@ class AmGrid extends LitElement {
                 display: flex;
 				width: 100%;
 				position: sticky;
-                background: rgb(28, 39, 61);
+                background: var(--grey-lightest);
 				z-index: 2;
 				top: 0;
             }

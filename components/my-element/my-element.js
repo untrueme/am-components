@@ -13,7 +13,7 @@ class MyElement extends LitNotify(LitElement) {
 		return css`
 			:host {
 				display: block;
-				border: solid 1px gray;
+				border: solid 1px var(--grey-light);
 				width: 484px;
 			}
 		`;

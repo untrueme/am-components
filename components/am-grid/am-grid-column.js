@@ -41,15 +41,23 @@ class AmGridColumn extends LitElement {
                 flex-direction: row;
                 display: flex;
                 align-items: center;
-                color: white;
                 min-height: 32px;
                 overflow: hidden;
-                background: rgb(28, 39, 61);
+                background: var(--grey-lightest);
+                color: var(--black-lightest);
                 z-index: 2;
                 font-weight: 500;
-				border: none;
+                border-top: 1px solid var(--grey-light);
+                border-bottom: 1px solid var(--grey-light);
+                border-right: 1px solid var(--grey-light);
 				position: sticky;
 				top: 0px;
+                font-family: 'Golos Bold';
+                font-weight: 500;
+            }
+
+            :host(:last-child) {
+                border-right:none;
             }
 
             :host([hidden]) {
@@ -69,23 +77,26 @@ class AmGridColumn extends LitElement {
             }
 
             .header {
-                font-weight:bold;
+                white-space: nowrap;
+                overflow: hidden;
                 text-overflow: ellipsis;
                 width: 100%;
-                padding: 0 8px;
+                margin: 0 8px;
             }
 
             .resizer{
                 cursor: ew-resize;
-                border-right: 1px solid #DCDEE1;
                 height: 100%;
-                width:2px;
+                width:4px;
             }
         `;
     }
     render() {
         return html`
-            <span class="header"><slot name="prefix"></slot>${this.header}</span>
+            <span class="header">
+                <slot name="prefix"></slot>
+                ${this.header}
+            </span>
             ${this.resizable ? html`<span class="resizer" @mousedown="${this.onResize}"></span>` : null}
         `;
     }

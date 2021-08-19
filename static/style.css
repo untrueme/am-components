@@ -1,3 +1,21 @@
+@font-face {
+	font-family: 'Golos Regular';
+	src:
+		url('Golos-Regular.woff2') format('woff2'),
+		url('Golos-Regular.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Golos Bold';
+	src:
+		url('Golos-Bold.woff2') format('woff2'),
+		url('Golos-Bold.woff') format('woff');
+	font-weight: 500;
+	font-style: normal;
+}
+
 :root{
     --nv-base-size-xs: 16px;
     --nv-base-size-s: 24px;
@@ -12,18 +30,9 @@
     --nv-base-gap-xxl: 32px;
     --nv-base-gap-xxxl: 48px;
 
-    --nv-font-sm: normal 12px 'Open Sans';
-    --nv-font-md: normal 14px 'Open Sans';
-    --nv-font-lg: normal 14px 'Open Sans';
-
-    --nv-font-bold-sm: normal 12px 'Open Sans SemiBold';
-    --nv-font-bold-md: normal 14px 'Open Sans SemiBold';
-    --nv-font-bold-lg: normal 14px 'Open Sans SemiBold';
-
     --nv-line-height-sm: 12px;
     --nv-line-height-md: 19px;
     --nv-line-height-lg: 19px;
-
 
     --nv-height-sm: 24px;
     --nv-height-md: 32px;
@@ -36,8 +45,6 @@
     --nv-padding-y-sm: 4px;
     --nv-padding-y-md: 6px;
     --nv-padding-y-lg: 8px;
-
-    --nv-input-default-width: 300px;
 
     --nv-icon-size-sm: 12px;
     --nv-icon-size-md: 16px;
@@ -56,7 +63,7 @@
     --surface3: hsl(var(--nv-primary-hue) 20% 92%);
     --surface4: hsl(var(--nv-primary-hue) 20% 85%);
 
-    --nv-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    --nv-box-shadow:0px 8px 30px rgba(0, 0, 0, 0.15);
 
     --nv-default:hsla(220, 26%, 96%, 1);
     --nv-default-hue: 220;
@@ -71,14 +78,39 @@
     --primary-light:#ADB2E9;
     --primary-lightest: #EFF1FF;
 
+    --negative-base: #FF6361;
+    --negative-dark: #C64C4B;
+    --negative-darkest: #8F3736;
+    --negative-light: #FF9D9E;
+    --negative-lightest: #F8D3D5 ;
+
 
     --grey-base: #CBCED7;
     --grey-dark: #ACB1C1;
     --grey-light: #E1E5EB;
     --grey-lightest: #F6F8FA;
-
     --white: #fff;
-    --black-base: #000;
+
+    --black-base: #3E4050;
+    --black-dark: #32343F;
+    --black-light: #4A4D61;
+    --black-lightest: #8D8F9B;
+
+
+    /* Turquoise
+    --primary-base: #80BEE1;
+    --primary-dark: #6B9EBD;
+    --primary-darkest: #568199;;
+    --primary-light:#ACD6EF;;
+    --primary-lightest:  #D7EFFD; */
+
+
+    /* Mint
+    --primary-base: #87CAB0;
+    --primary-dark: #6DA490;
+    --primary-darkest: #558171;;
+    --primary-light:#AFE4D6;;
+    --primary-lightest:  #DAFEF7; */
 
 }
 

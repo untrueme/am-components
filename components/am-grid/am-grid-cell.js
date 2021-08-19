@@ -22,7 +22,15 @@ class AmGridCell extends LitElement {
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                border-top: 1px solid var(--grey-light);
+                border-bottom: 1px solid var(--grey-light);
+                border-right: 1px solid var(--grey-light);
             }
+
+            :host(:last-child) {
+                border-right:none;
+            }
+
 
             :host span{
                 white-space: inherit;

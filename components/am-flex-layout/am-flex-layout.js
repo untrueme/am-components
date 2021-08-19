@@ -1,28 +1,25 @@
 import { LitElement, html, css } from 'lit';
-import { classMap } from 'lit/directives/class-map.js';
 
 class AmFlexLayout extends LitElement {
     static get properties() {
         return {
             vertical: {
-                type: Boolean,
-                reflect: true
+                type: Boolean
             },
             wrap: {
-                type: Boolean,
-                reflect: true
+                type: Boolean
             },
-            fitHorizontal: {
-                type: Boolean,
-                reflect: true
-            },
-            fitVertical: {
-                type: Boolean,
-                reflect: true
+            fit: {
+                type: String
             },
             scrollable: {
-                type: Boolean,
-                reflect: true
+                type: Boolean
+            },
+            align: {
+                type: String
+            },
+            justify: {
+                type: String
             }
         };
     }
@@ -31,36 +28,25 @@ class AmFlexLayout extends LitElement {
         super();
         this.vertical = false;
         this.wrap = false;
-        this.fitHorizontal = false;
-        this.fitVertical = false;
+        this.fit = 'none';
     }
 
     static get styles() {
         return css`
             :host {
-                box-sizing: border-box;
                 display: flex;
-                width: fit-content;
-                height: fit-content;
-                gap: 8px;
-                position: relative;
                 flex-direction: row;
                 align-items: flex-start;
-            }
-
-
-            :host([fit-horizontal]) {
-                width: 100% !important;
+                justify-content: flex-start;
+                gap: 8px;
+                width: fit-content;
+                height: fit-content;
+                position: relative;
+                box-sizing: border-box;
             }
 
             :host([vertical]) {
-                -ms-flex-direction: column;
-                -webkit-flex-direction: column;
                 flex-direction: column;
-            }
-
-            :host([fit-vertical]) {
-               height: 100% !important;
             }
 
             :host([wrap]) {
@@ -69,6 +55,51 @@ class AmFlexLayout extends LitElement {
 
             :host([scrollable]) {
                 overflow: auto
+            }
+
+            :host([fit=horizontal]) {
+                width: 100% !important;
+            }
+
+            :host([fit=vertical]) {
+                height: 100% !important;
+            }
+
+            :host([fit=all]) {
+                height: 100% !important;
+                width: 100% !important;
+            }
+
+            :host([justify=flex-start]) {
+                justify-content: flex-start;
+            }
+
+            :host([justify=center]) {
+                justify-content: center;
+            }
+
+            :host([justify=flex-end]) {
+                justify-content: flex-end;
+            }
+
+            :host([justify=space-between]) {
+                justify-content: space-between;
+            }
+
+            :host([align=flex-start]) {
+                align-items: flex-start;
+            }
+
+            :host([align=center]) {
+                align-items: center;
+            }
+
+            :host([align=flex-end]) {
+                align-items: flex-end;
+            }
+
+            :host([align=baseline]) {
+                align-items: baseline;
             }
        `;
     }

@@ -63,7 +63,6 @@ export class AmButton extends LitElement {
         }
 
         /* primary */
-
         :host([variant=primary]) {
             background: var(--primary-base);
         }
@@ -104,12 +103,35 @@ export class AmButton extends LitElement {
         :host([variant=secondary]:active) {
             background: var(--primary-light);
             border: 1px solid var(--primary-darkest);
+            color:  var(--primary-darkest);
             box-sizing: border-box;
         }
 
         :host([disabled][variant=secondary]) {
             background: transparent;
             border: 1px solid var(--grey-light);
+            color: var(--grey-dark);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* negative */
+        :host([variant=negative]) {
+            background: var(--negative-base);
+        }
+
+        :host([variant=negative]:hover),:host([variant=negative]:focus) {
+            background: var(--negative-dark);
+            outline:none;
+        }
+
+        :host([variant=negative]:active) {
+            background: var(--negative-darkest);
+        }
+
+        :host([disabled][variant=negative]) {
+            background: var(--grey-light);
+            border: none;
             color: var(--grey-dark);
             cursor: not-allowed;
             pointer-events: none;
