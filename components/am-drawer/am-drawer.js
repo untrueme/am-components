@@ -32,7 +32,8 @@ class AmDrawer extends LitElement {
                 visibility: hidden;
                 display: flex;
                 flex-direction: column;
-                transition: ease 0.2s;
+                will-change: transform;
+                transition: ease 250ms;
             }
 
             :host([size=small]) .container{
@@ -119,6 +120,15 @@ class AmDrawer extends LitElement {
                 padding: 8px;
                 height: 48px;
             }
+
+            #close-icon {
+                color: var(--black-base);
+            }
+
+            #close-icon:hover {
+                cursor: pointer;
+                color:var(--black-dark);
+            }
         `
     }
 
@@ -137,7 +147,7 @@ class AmDrawer extends LitElement {
             })}>
                 <div class="header">
                     <span class="header-text">${this.header}</span>
-                    <lit-icon iconset="iconset-32" size="32" icon="close" @click="${this.close}"></lit-icon>
+                    <lit-icon id="close-icon" iconset="iconset-32" size="32" icon="close" @click="${this.close}"></lit-icon>
                 </div>
                 <div class="content">
                     <slot></slot>
