@@ -49,7 +49,7 @@ class AmGrid extends LitElement {
             }
             #container {
 				display: flex;
-				width: 100%;
+				width: var(--am-grid-container-width, 100%);
                 height: 100%;
 				flex-direction: column;
                 overflow: auto;
@@ -66,11 +66,11 @@ class AmGrid extends LitElement {
 
             #header{
                 display: flex;
-                width: 100%;
+                width: var(--am-grid-total-width, 100%)
             }
 
-            .row {
-                display: flex
+            #rowsContainer {
+                width: var(--am-grid-total-width, 100%)
             }
 		`;
     }
@@ -93,8 +93,18 @@ class AmGrid extends LitElement {
         }
 
         this._observer = new MutationObserver((rec) => {
-            window.requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                // if(rec.length == 1) {
+                //     let el = rec[0];
+                //     if(el.attributeName == 'width') {
+                //         el.target.style.setProperty('--am-header-width', `${el.target.width}px`);
+                //         this.requestUpdate();
+                //     }
+                // } else {
+                //     this._columnsChanged();
+                // }
                 this._columnsChanged();
+
             })
         });
 
@@ -154,11 +164,14 @@ class AmGrid extends LitElement {
             column.setAttribute('slot', `column-${index}`);
 
             if (column.width) {
-                column.style.width = column.width + 'px';
-                column.style.flex = null;
+                column.style.setProperty('--am-header-width', `${column.width}px`);
+                column.style.removeProperty('--am-header-flex');
+    
             } else {
-                column.style.flex = '1';
+                column.style.setProperty('--am-header-flex', `1`);
+                column.style.removeProperty('--am-header-width');
             }
+            
             column.info = {
                 kind: column.kind,
                 header: column.header,
@@ -170,8 +183,8 @@ class AmGrid extends LitElement {
             };
 
             if (column.fixed) {
-                column.style.left = index == 0 ? 0 : columnsNodes[index - 1].width + 'px';
-                column.info.left = index == 0 ? 0 : columnsNodes[index - 1].width + 'px';
+                column.style.left = index == 0 ? '0px' : columnsNodes[index - 1].width + 'px';
+                column.info.left = index == 0 ? '0' : columnsNodes[index - 1].width;
             }
 
             return column.info;
@@ -180,9 +193,8 @@ class AmGrid extends LitElement {
         this.columns = columns;
         const totalWidth = columns.map(x => x.width).reduce((a, b) => a + b, 0);
         if (!Number.isNaN(totalWidth)) {
-            this.shadowRoot.querySelector('#container').style.width = `${Math.min(this.scrollWidth, this.clientWidth + this.scrollLeft)}px`;
-            this.shadowRoot.querySelector('#header').style.width = `${totalWidth}px`;
-            this.shadowRoot.querySelector('#rowsContainer').style.width = `${totalWidth}px`;
+            this.style.setProperty('--am-grid-container-width', `${Math.min(this.scrollWidth, this.clientWidth + this.scrollLeft)}px`);
+            this.style.setProperty('--am-grid-total-width', `${totalWidth}px`);
         }
 
         this.requestUpdate();

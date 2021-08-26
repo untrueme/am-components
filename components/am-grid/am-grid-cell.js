@@ -24,6 +24,9 @@ class AmGridCell extends LitElement {
                 text-overflow: ellipsis;
                 border-bottom: 1px solid var(--grey-light);
                 border-right: 1px solid var(--grey-light);
+                width: var(--am-grid-cell-width);
+                flex: var(--am-grid-cell-flex, unset);
+                left: var(--am-grid-cell-left, none);
             }
 
             :host(:last-child) {
@@ -40,11 +43,29 @@ class AmGridCell extends LitElement {
 
             :host([fixed]) {
                 position: sticky;
-				left: 0px;
                 top: 0;
             }
 		`;
     }
+
+    willUpdate(args) {
+        if(args.has('column')) {
+            if (this.column.width) {
+                this.style.setProperty('--am-grid-cell-width', `${this.column.width}px`);
+                this.style.removeProperty('--am-grid-cell-flex');
+    
+            } else {
+                this.style.setProperty('--am-grid-cell-flex', `1`);
+                this.style.removeProperty('--am-grid-cell-width');
+            }
+            if(this.column.left != undefined) {
+                this.style.setProperty('--am-grid-cell-left', `${this.column.left}px`);
+            } else {
+                this.style.removeProperty('--am-grid-cell-left');
+            }
+        }
+    }
+
     render() {
         return html`<span>${this._getValue()}</span>`;
     }

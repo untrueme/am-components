@@ -53,6 +53,8 @@ class AmGridColumn extends LitElement {
 				top: 0px;
                 font-family: 'Golos Bold';
                 font-weight: 500;
+                width: var(--am-header-width, auto);
+                flex: var(--am-header-flex, unset);
             }
 
             :host(:last-child) {

@@ -1,5 +1,4 @@
 import { LitElement, html, css } from 'lit';
-import { styleMap } from 'lit/directives/style-map.js';
 
 import './am-grid-cell.js';
 import './am-grid-tree-cell.js';
@@ -74,12 +73,6 @@ class AmGridRow extends LitElement {
                 ${this.columns.map((column) => html`
                     <am-grid-cell 
                         ?fixed="${column.fixed}" 
-                        style=${styleMap({
-                                width: column.width ? column.width + 'px' : null,
-                                flex: !column.width ? 1 : null,
-                                left: column.left ? column.left : null,
-                            })
-                        }
                         .column=${column} 
                         .value=${this.item}>
                     </am-grid-cell>`
