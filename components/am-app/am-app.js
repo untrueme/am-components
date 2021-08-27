@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
-import '@gym/app/forms/login.js';
-import "@gym/app/forms/main.js"
+import '/forms/login.js';
+import "/forms/main.js"
 import "/components/am-iconset/am-iconset.js";
 
 class App extends LitElement {
