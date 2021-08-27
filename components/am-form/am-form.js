@@ -5,34 +5,22 @@ class AmForm extends LitElement {
 	static get properties() {
 		return {
 			args: { type: Object },
-            formTitle: { type: String }
+			formTitle: { type: String }
 		}
 	}
 	static get styles() {
 		return css`
-			:host {
-				display: block;
-				position: relative;
-				min-width: 1px;
-				box-sizing:border-box;
-				font-size: 12px;
-				width: 100%;
-				height: 100%;
-				background: white;
-				border-radius: 4px;
-				padding: 16px;
-				overflow: hidden;
-			}
-
-			:host([hidden]) {
-				display: none !important;
-			}
+			
 		`;
 	}
 	render() {
 		return html`
             <slot></slot>
         `;
+	}
+
+	close() {
+		this.dispatchEvent(new CustomEvent('on-form-close', { composed: true, bubbles: true }));
 	}
 }
 

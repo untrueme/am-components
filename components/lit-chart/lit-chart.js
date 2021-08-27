@@ -27,12 +27,46 @@ class LitChart extends LitElement {
     firstUpdated(args) {
         super.firstUpdated(args);
         const canvas = this.shadowRoot.querySelector('#myChart');
+        const chartOptions = {
+            maintainAspectRatio: false,
+            legend: {
+                display: false,
+            },
+            tooltips: {
+                enabled: false,
+            },
+            elements: {
+                point: {
+                    radius: 0
+                },
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: false,
+                    scaleLabel: false,
+                    ticks: {
+                        display: false
+                    }
+                }],
+                yAxes: [{
+                    gridLines: true,
+                    scaleLabel: false,
+                    ticks: {
+                        display: false,
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
+                }]
+            }
+        };
+
+        
         new ChartJs.Chart(canvas, {
             type: 'bar',
             data: {
                 labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                 datasets: [{
-                    label: '# of Votes',
+                    label: 'Number of Votes',
                     data: [12, 19, 3, 5, 2, 3],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -53,13 +87,7 @@ class LitChart extends LitElement {
                     borderWidth: 1
                 }]
             },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
+            options: chartOptions
         });
     }
 }

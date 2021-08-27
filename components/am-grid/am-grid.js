@@ -38,6 +38,8 @@ class AmGrid extends LitElement {
 				overflow: auto;
 				box-sizing: border-box;
                 border: 1px solid var(--grey-light);
+                font-family: 'Golos Regular';
+                font-size: 13px;
             }
 
             :host([no-fit]) {

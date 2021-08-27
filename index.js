@@ -31,8 +31,8 @@ async function initScriptsHandler(context) {
 }
 
 async function formsHandler(context) {
-    const cmpPath = path.join(__dirname, context.url);
-    const resp = await prepareResponse(cmpPath, { mimeType: 'application/javascript' });
+    let files = await findResources(context.url);
+    const resp = await prepareResponse(files.reverse()[0], { mimeType: 'application/javascript' });
 
     context.headers(resp.headers);
     if (resp.content) {
