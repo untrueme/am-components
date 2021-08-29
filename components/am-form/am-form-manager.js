@@ -88,6 +88,7 @@ class AmFormManager extends LitElement {
         if (formName) {
             const frmIndex = this.forms.findIndex(x => x.formName == formName);
             if (frmIndex == -1) {
+                document.querySelector('#preloader').style.display="block";
                 await import(`/forms/${formName}.js`);
                 const form = document.createElement(`am-form-${formName}`);
                 form.args = { test: 'test' };
@@ -100,6 +101,9 @@ class AmFormManager extends LitElement {
             } else {
                 this.forms.find(x => x.formName == formName).time = new Date();
             }
+
+            document.querySelector('#preloader').style.display="none";
+
         }
 
         this.select(formName);
