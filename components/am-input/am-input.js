@@ -39,6 +39,7 @@ class AmInput extends LitNotify(LitElement) {
 
 			:host([variant=horizontal]) label{
                 margin-right: 8px;
+				width: var(--am-input-label-width, auto);
             }
 
 			label {
@@ -55,7 +56,7 @@ class AmInput extends LitNotify(LitElement) {
                 white-space: normal;
                 text-overflow: ellipsis;
                 overflow:hidden;
-				width: 100px;
+				width: auto;
             }
 
             label span {

@@ -28,6 +28,11 @@ class App extends LitElement {
 		});
 	}
 
+	firstUpdated(args){
+		super.firstUpdated(args);
+		document.querySelector('#preloader').style.display="none";
+	}
+
 	render() {
 		return html`
 			<am-login .hidden=${this.authorized}></am-login>
