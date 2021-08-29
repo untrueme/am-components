@@ -21,6 +21,7 @@ class AmLabeledText extends LitElement {
 				direction: var(--direction);
 				align-items: flex-start;
 				outline: none;
+                --labeled-text-content-width: 200px;
 			}
 
 			:host([variant=horizontal]) {
@@ -30,8 +31,13 @@ class AmLabeledText extends LitElement {
 
 			:host([variant=horizontal]) label{
                 margin-right: 8px;
-				width: var(--am-labeled-text-label-width, auto);
+				width: var(--am-labeled-text-label-width, 140px);
             }
+
+            :host([variant=vertical]) label{
+				width: var(--labeled-text-content-width);
+            }
+
 
 			label {
                 box-sizing: border-box;
@@ -54,6 +60,16 @@ class AmLabeledText extends LitElement {
                 width: 100%;
             }
 
+            .text {
+                display: flex;
+                box-sizing: border-box;
+				overflow: hidden;
+                align-items: center;
+                line-height: 150%;
+                font-size: 14px;
+                width: var(--labeled-text-content-width);
+			}
+
             :host([disabled]) {
                 color: var(--grey-base);
                 cursor: not-allowed;
@@ -68,7 +84,8 @@ class AmLabeledText extends LitElement {
 			<label id="label">
 				<span>${this.label}</span>
 			</label>
-			${this.text}
+            <span class="text">${this.text}</span>
+			
 		`;
     }
 }

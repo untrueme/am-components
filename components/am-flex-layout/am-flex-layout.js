@@ -7,6 +7,10 @@ class AmFlexLayout extends LitElement {
                 type: Boolean,
                 reflect: true
             },
+            hidden: {
+                type: Boolean,
+                reflect: true
+            },
             wrap: {
                 type: Boolean,
                 reflect: true
@@ -49,6 +53,10 @@ class AmFlexLayout extends LitElement {
                 height: fit-content;
                 position: relative;
                 box-sizing: border-box;
+            }
+
+            :host([hidden]) {
+                display: none;
             }
 
             :host([vertical]) {

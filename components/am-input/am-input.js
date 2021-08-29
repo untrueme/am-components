@@ -39,7 +39,11 @@ class AmInput extends LitNotify(LitElement) {
 
 			:host([variant=horizontal]) label{
                 margin-right: 8px;
-				width: var(--am-input-label-width, auto);
+				width: var(--am-input-label-width, 140px);
+            }
+
+			:host([variant=vertical]) label{
+				width: var(--input-content-width);
             }
 
 			label {
