@@ -7,87 +7,113 @@ class LitChart extends LitElement {
         return css`
             :host {
                 display: flex;
-                width:100%;
-                height: 100%;
+                box-sizing: border-box;
             }
-			#myChart {
-				display: block;
-				border: solid 1px gray;
-				padding: 16px;
-			}
+
+            .container {
+                position: relative;
+            }
+
+            .donut-inner {
+                position: absolute;
+                top: 33%;
+                left: 33%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .donut-inner h5 {
+                margin-bottom: 5px;
+                margin-top: 0;
+            }
+
+            .donut-inner .title {
+                font-size: 18px;
+                font-weight: 500;
+                line-height: 150%;
+                color: var(--black)
+
+            }
+
+            .donut-inner .title2 {
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 150%;
+                color: var(--black)
+
+            }
+            .donut-inner .subtitle {
+                font-size: 12px;
+                font-weight: 500;
+                line-height: 150%;
+                color: var(--grey-dark)
+            }
+
+            .divider {
+                width: 100px;
+                border-top: 0.944444px solid #E1E5EB;
+            }
 		`;
     }
 
     render() {
         return html`
-            <canvas id="myChart"></canvas>
+            <div class="container">
+                <canvas  id="myChart"></canvas>
+                <div class="donut-inner">
+                    <span class="subtitle">Всего</span>
+                    <span class="title">767 027</span>
+                    <span class="divider"></span>
+                    <span class="title2">514 209</span>
+                    <span class="subtitle">Выбрано</span>
+                </div>
+            </div>
 		`;
     }
 
     firstUpdated(args) {
         super.firstUpdated(args);
         const canvas = this.shadowRoot.querySelector('#myChart');
-        const chartOptions = {
-            maintainAspectRatio: false,
-            legend: {
-                display: false,
-            },
-            tooltips: {
-                enabled: false,
-            },
-            elements: {
-                point: {
-                    radius: 0
-                },
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: false,
-                    scaleLabel: false,
-                    ticks: {
-                        display: false
-                    }
-                }],
-                yAxes: [{
-                    gridLines: true,
-                    scaleLabel: false,
-                    ticks: {
-                        display: false,
-                        suggestedMin: 0,
-                        suggestedMax: 10
-                    }
-                }]
-            }
-        };
 
-        
         new ChartJs.Chart(canvas, {
-            type: 'bar',
+            type: 'doughnut',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: [
+                    'One',
+                    'Two',
+                    'Three',
+                    'Four',
+                    'Five'
+                ],
                 datasets: [{
-                    label: 'Number of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
+                    label: 'My First Dataset',
+                    data: [50, 50, 50, 50, 50],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
+                        '#5F81BE',
+                        '#80BEE1',
+                        '#AFE4D6',
+                        '#9B7BEB',
+                        '#A1CD9B'
+                    ]
+                }],
             },
-            options: chartOptions
+            options: {
+                spacing: 0,
+                cutout: 55,
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    title: {
+                        display: true,
+                        position: 'top',
+                        text: 'Chart.js Doughnut Chart'
+                    }
+                }
+            }
         });
     }
 }
