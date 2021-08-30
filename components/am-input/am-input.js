@@ -107,6 +107,7 @@ class AmInput extends LitNotify(LitElement) {
                 font-size: 14px;
 				width: 100%;
 				height: 100%;
+				font-family: 'Golos Regular';
 			}
 
 			.input-content {
@@ -167,17 +168,18 @@ class AmInput extends LitNotify(LitElement) {
 				</span>
 				<input
 					tabindex="${this.disabled ? -1 : 0}"
-					type="${this.type}"
-					title="${this.value}"
+					?disabled="${this.disabled}"
+					.type="${this.type}"
+					.title="${this.value}"
 					value="${this.value}"
 					placeholder="${this.placeHolder}"
 					@focus="${this._onFocus}"
 					@keyup="${this._onKeyUp}"
 					@change="${this._onChange}"
 					@blur="${this._onBlur}"
-					min="${this.min}"
-					max="${this.max}"
-					step="${this.step}"
+					.min="${this.min}"
+					.max="${this.max}"
+					.step="${this.step}"
 					>
 				<span class="suffix">
                 	<slot name="suffix"></slot>
@@ -190,6 +192,7 @@ class AmInput extends LitNotify(LitElement) {
 	constructor() {
 		super();
 		this._input = {};
+		this.value = '';
 		this.type = 'text';
 		this.label = '';
 		this.invalid = !true;

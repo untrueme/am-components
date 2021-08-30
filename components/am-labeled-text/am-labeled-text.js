@@ -67,7 +67,8 @@ class AmLabeledText extends LitElement {
                 align-items: center;
                 line-height: 150%;
                 font-size: 14px;
-                width: var(--labeled-text-content-width);
+                width: var(--labeled-text-content-width, auto);
+                min-height: 32px;
 			}
 
             :host([disabled]) {
