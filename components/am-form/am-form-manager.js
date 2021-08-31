@@ -4,7 +4,11 @@ class AmFormManager extends LitElement {
 
     static get properties() {
         return {
-            current: { type: String, attribute: false, reflect: false },
+            current: { 
+                type: String, 
+                attribute: false, 
+                reflect: false 
+            },
             forms: { type: Array }
         }
     }
@@ -69,10 +73,11 @@ class AmFormManager extends LitElement {
         this.addEventListener('on-form-close', (e) => {
             this.removeChild(e.target);
             this.forms.splice(this.forms.findIndex(x => x.dom == e.target), 1);
-            if(this.forms.length > 0) {
-                this.current = this.forms.sort((a,b)=>a.time.getTime()-b.time.getTime())[this.forms.length - 1].formName;
+            if (this.forms.length > 0) {
+                this.current = this.forms.sort((a, b) => a.time.getTime() - b.time.getTime())[this.forms.length - 1].formName;
             } else {
-                this.current = '#';
+                this.current = '';
+                history.replaceState({}, null, '#');
             }
         })
     }
@@ -88,7 +93,7 @@ class AmFormManager extends LitElement {
         if (formName) {
             const frmIndex = this.forms.findIndex(x => x.formName == formName);
             if (frmIndex == -1) {
-                document.querySelector('#preloader').style.display="block";
+                document.querySelector('#preloader').style.display = "block";
                 await import(`/forms/${formName}.js`);
                 const form = document.createElement(`am-form-${formName}`);
                 form.args = { test: 'test' };
@@ -98,12 +103,11 @@ class AmFormManager extends LitElement {
                     dom: form,
                     time: new Date()
                 });
-            } else {
+            } else if (this.forms.length > 0) {
                 this.forms.find(x => x.formName == formName).time = new Date();
             }
 
-            document.querySelector('#preloader').style.display="none";
-
+            document.querySelector('#preloader').style.display = "none";
         }
 
         this.select(formName);
