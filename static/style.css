@@ -98,6 +98,13 @@
 
     --direction: ltr;
 
+    --font-sm: normal 12px 'Golos Regular';
+    --font-md: normal 14px 'Golos Regular';
+
+    --font-bold-sm: normal 12px 'Golos Bold';
+    --font-bold-md: normal 14px 'Golos Bold';
+
+
     /* Turquoise
     --primary-base: #80BEE1;
     --primary-dark: #6B9EBD;
