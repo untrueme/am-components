@@ -1,6 +1,7 @@
 import { html, css, LitElement } from 'lit';
 import '/components/am-dropdown/am-dropdown.js';
 import '/components/am-datetime/am-datetime-calendar.js';
+import dayjs from 'dayjs/esm/index.js';
 
 import '/components/am-input/am-input.js';
 import IMask from 'imask';
@@ -19,9 +20,16 @@ class ShadowHTMLMaskElement extends IMask.HTMLMaskElement {
 class AmDateTime extends LitElement {
 	static get properties() {
 		return {
-			value: { type: String, notify: true },
+			value: { type: String },
+            formattedValue: { type: String }
 		};
 	}
+
+    constructor(){
+        super();
+        this.value = '';
+        this.formattedValue = '';
+    }
 
 	static get styles() {
 		return css`
@@ -36,7 +44,7 @@ class AmDateTime extends LitElement {
 			}
 
             am-input {
-                --input-content-width: 140px;
+                --input-content-width: 130px;
             }
 
 			lit-icon {
@@ -54,12 +62,11 @@ class AmDateTime extends LitElement {
 
     render() {
 		return html`
-			<am-input id="input" label="datetime">
-			    <lit-icon slot="suffix" iconset="iconset-16" size="16" icon="cancel"></lit-icon>
+			<am-input .value="${this.formattedValue}" id="input" label="datetime">
 				<lit-icon slot="suffix" iconset="iconset-16" size="16" icon="history" @click="${this._onToggle}"></lit-icon>
 			</am-input>
 			<am-dropdown id="ddCombo">
-				<am-datetime-calendar></am-datetime-calendar>
+				<am-datetime-calendar @on-day-click="${this.onDayClick}"></am-datetime-calendar>
 			</am-dropdown>
 		`;
 	}
@@ -70,7 +77,6 @@ class AmDateTime extends LitElement {
             placeholderChar: '_',
             lazy: false,
             overwrite: true,
-            autofix: false,  // defaults to `false`
             blocks: {
                 d: {
                   mask: IMask.MaskedRange,
@@ -93,7 +99,13 @@ class AmDateTime extends LitElement {
         };
     }
 
-	
+	onDayClick(event){
+        this.value = event.detail.day;
+        this.formattedValue = event.detail.day.format('DD.MM.YYYY');
+        let d = this.shadowRoot.querySelector('#ddCombo');
+        d.close();
+
+    }
 
     firstUpdated() {
         window.requestAnimationFrame(() => {
