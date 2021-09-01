@@ -109,7 +109,7 @@ class MainView extends LitElement {
             <am-app-menu ?opened=${this.opened}></am-app-menu>
             <am-app-bar>
                 <div slot="top" style="margin: 16px">
-                    <lit-icon iconset="iconset-32" size="32" icon="logo"></lit-icon>
+                    <lit-icon iconset="iconset-32" size="32" icon="logo" @click="${this.logoClick}"></lit-icon>
                 </div>
                 ${this.menuItems.map(i => 
                     html`<div class="menuItem" slot="top" name=${i.name} @click="${this.onMenuClick}">${i.title}</div>`
@@ -125,6 +125,11 @@ class MainView extends LitElement {
     async onMenuClick(event){
         let formName = event.target.getAttribute('name');
         this.currentForm = formName;
+    }
+
+    logoClick(){
+        this.currentForm = '';
+        history.pushState({}, null, '#');
     }
 
     onLogout(){

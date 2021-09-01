@@ -77,7 +77,7 @@ class AmFormManager extends LitElement {
                 this.current = this.forms.sort((a, b) => a.time.getTime() - b.time.getTime())[this.forms.length - 1].formName;
             } else {
                 this.current = '';
-                history.replaceState({}, null, '#');
+                history.pushState({}, null, '#');
             }
         })
     }
