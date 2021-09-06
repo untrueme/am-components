@@ -7,7 +7,6 @@ export class AmCheckbox extends LitElement {
 			label: { type: String },
 			variant: { type: String },
 			disabled: { type: Boolean },
-			indeterminate: {type: Boolean },
 			checked: { type: Boolean}
 		}
 	}
@@ -118,12 +117,7 @@ export class AmCheckbox extends LitElement {
 	}
 
 	onClick() {
-		if(this.checked === undefined) {
-			this.checked = false;
-			this.indeterminate = false;
-		} else {
-			this.checked = !this.checked;
-		}
+		this.checked = !this.checked;
 	}
 }
 
