@@ -12,6 +12,11 @@ export class AmCheckbox extends LitElement {
 		}
 	}
 
+	constructor(){
+		super();
+		this.checked = undefined;
+	}
+
 	static get styles() {
 		return css`
 			:host {
@@ -86,34 +91,39 @@ export class AmCheckbox extends LitElement {
 			<label id="label">
 				<span>${this.label}</span>
 			</label>
-			${this.checked
-				? html`
-					<span class="checkbox">
+			<span @click="${this.onClick}">
+				${this.checked === undefined
+					? html`
 						<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<rect width="16" height="16" rx="4" fill="#6C75DC"/>
-							<path d="M5 8.5L7 11L11.5 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+							<path fill-rule="evenodd" clip-rule="evenodd" d="M2.75 7.75C2.75 7.33579 3.08579 7 3.5 7H12.25C12.6642 7 13 7.33579 13 7.75C13 8.16421 12.6642 8.5 12.25 8.5H3.5C3.08579 8.5 2.75 8.16421 2.75 7.75Z" fill="white"/>
 						</svg>
-					</span>
-				`
-				: html`
-					<span class="checkbox">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-							<rect x="0.5" y="0.5" width="15" height="15" rx="3.5" fill="white"/>
-							<rect x="0.5" y="0.5" width="15" height="15" rx="3.5" stroke="#E1E5EB"/>
-						</svg>
-					</span>
-				`}
-          ${!this.checked && this.indeterminate
-            ? html`
-                <span class="checkbox__icon">
-					<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<rect width="16" height="16" rx="4" fill="#6C75DC"/>
-						<path fill-rule="evenodd" clip-rule="evenodd" d="M2.75 7.75C2.75 7.33579 3.08579 7 3.5 7H12.25C12.6642 7 13 7.33579 13 7.75C13 8.16421 12.6642 8.5 12.25 8.5H3.5C3.08579 8.5 2.75 8.16421 2.75 7.75Z" fill="white"/>
-					</svg>
-                </span>
-              `
-            : ''}
+					`
+					:  this.checked
+						? html`
+							<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<rect width="16" height="16" rx="4" fill="#6C75DC"/>
+								<path d="M5 8.5L7 11L11.5 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+						`
+						: html`
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+								<rect x="0.5" y="0.5" width="15" height="15" rx="3.5" fill="white"/>
+								<rect x="0.5" y="0.5" width="15" height="15" rx="3.5" stroke="#E1E5EB"/>
+							</svg>
+						`
+				}
+			</span>
 		`;
+	}
+
+	onClick() {
+		if(this.checked === undefined) {
+			this.checked = false;
+			this.indeterminate = false;
+		} else {
+			this.checked = !this.checked;
+		}
 	}
 }
 
