@@ -17,6 +17,8 @@ class AmCard extends LitElement {
                 border-radius: 4px;
                 width: fit-content;
                 height: fit-content;
+                box-sizing: border-box;
+                flex-shrink: 0;
             }
 
             :host([fit=horizontal]) {
@@ -39,9 +41,10 @@ class AmCard extends LitElement {
                 height: 48px;
                 box-sizing: border-box;
                 justify-content: space-between;
-                margin: 0 16px 0px;
+                padding: 0 8px;
                 gap: 8px;
             }
+            
 
             .header-text {
                 font-style: normal;
