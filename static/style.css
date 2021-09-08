@@ -84,6 +84,12 @@
     --negative-light: #FF9D9E;
     --negative-lightest: #F8D3D5 ;
 
+    --attention-base: #F2D26E;
+    --attention-dark: #D0B65E;
+    --attention-darkest: #AF994F;
+    --attention-light: #F7E7A6;
+    --attention-lightest: #FEF8E1;
+
 
     --grey-base: #CBCED7;
     --grey-dark: #ACB1C1;
