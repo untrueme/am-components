@@ -79,6 +79,10 @@ class AmFormManager extends LitElement {
                 this.current = '';
                 history.pushState({}, null, '#');
             }
+        });
+
+        this.addEventListener('open-form', (e) => {
+            this.current = e.detail.formName;
         })
     }
 
@@ -89,14 +93,14 @@ class AmFormManager extends LitElement {
         }
     }
 
-    async openForm(formName) {
+    async openForm(formName, params) {
         if (formName) {
             const frmIndex = this.forms.findIndex(x => x.formName == formName);
             if (frmIndex == -1) {
                 document.querySelector('#preloader').style.display = "block";
                 await import(`/forms/${formName}.js`);
                 const form = document.createElement(`am-form-${formName}`);
-                form.args = { test: 'test' };
+                form.args = params;
                 this.append(form);
                 this.forms.push({
                     formName: formName,

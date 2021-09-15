@@ -102,15 +102,14 @@
     --black-light: #4A4D61;
     --black-lightest: #8D8F9B;
 
-    --direction: ltr;
-
     --font-sm: normal 12px 'Golos Regular';
     --font-md: normal 14px 'Golos Regular';
 
     --font-bold-sm: normal 12px 'Golos Bold';
     --font-bold-md: normal 14px 'Golos Bold';
 
-
+    --label-width: 140px;
+    --content-width: 240px;
     /* Turquoise
     --primary-base: #80BEE1;
     --primary-dark: #6B9EBD;
@@ -125,7 +124,6 @@
     --primary-darkest: #558171;;
     --primary-light:#AFE4D6;;
     --primary-lightest:  #DAFEF7; */
-
 }
 
   body {

@@ -26,6 +26,22 @@ class App extends LitElement {
 			localStorage.setItem('isAuthorized', false);
 			this.authorized = false;
 		});
+
+		this.resizers = [];
+  
+		this.addEventListener('resize-notify-required', (ev) => {
+		  ev.stopPropagation();
+		  this.resizers.push(ev.detail)
+		});
+		
+		
+		const resizeObserver = new ResizeObserver(() => {
+			window.requestAnimationFrame(() => {
+				this.resizers.forEach(el => el.cb());
+			});
+		});
+		  
+		resizeObserver.observe(document.body);
 	}
 
 	firstUpdated(args){
