@@ -98,15 +98,21 @@ class AmFormManager extends LitElement {
             const frmIndex = this.forms.findIndex(x => x.formName == formName);
             if (frmIndex == -1) {
                 document.querySelector('#preloader').style.display = "block";
-                await import(`/forms/${formName}.js`);
-                const form = document.createElement(`am-form-${formName}`);
-                form.args = params;
-                this.append(form);
-                this.forms.push({
-                    formName: formName,
-                    dom: form,
-                    time: new Date()
-                });
+                try {
+                    await import(`/forms/${formName}.js`);
+                    const form = document.createElement(`am-form-${formName}`);
+                    form.args = params;
+                    this.append(form);
+                    this.forms.push({
+                        formName: formName,
+                        dom: form,
+                        time: new Date()
+                    });
+                } 
+                catch(err) {
+                    alert('Форма не найдена')
+                    document.querySelector('#preloader').style.display = "none";
+                }
             } else if (this.forms.length > 0) {
                 this.forms.find(x => x.formName == formName).time = new Date();
             }

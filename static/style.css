@@ -7,15 +7,6 @@
 	font-style: normal;
 }
 
-@font-face {
-	font-family: 'Golos Bold';
-	src:
-		url('Golos-Bold.woff2') format('woff2'),
-		url('Golos-Bold.woff') format('woff');
-	font-weight: 500;
-	font-style: normal;
-}
-
 :root{
     --nv-base-size-xs: 16px;
     --nv-base-size-s: 24px;
@@ -30,26 +21,6 @@
     --nv-base-gap-xxl: 32px;
     --nv-base-gap-xxxl: 48px;
 
-    --nv-line-height-sm: 12px;
-    --nv-line-height-md: 19px;
-    --nv-line-height-lg: 19px;
-
-    --nv-height-sm: 24px;
-    --nv-height-md: 32px;
-    --nv-height-lg: 40px;
-
-    --nv-padding-x-sm: 8px;
-    --nv-padding-x-md: 10px;
-    --nv-padding-x-lg: 12px;
-
-    --nv-padding-y-sm: 4px;
-    --nv-padding-y-md: 6px;
-    --nv-padding-y-lg: 8px;
-
-    --nv-icon-size-sm: 12px;
-    --nv-icon-size-md: 16px;
-    --nv-icon-size-lg: 24px;
-  
     --nv-primary:hsla(232, 67%, 58%, 1);
     --nv-primary-hue: 232;
     --nv-primary-saturation: 67%;
@@ -90,7 +61,6 @@
     --attention-light: #F7E7A6;
     --attention-lightest: #FEF8E1;
 
-
     --grey-base: #CBCED7;
     --grey-dark: #ACB1C1;
     --grey-light: #E1E5EB;
@@ -102,20 +72,27 @@
     --black-light: #4A4D61;
     --black-lightest: #8D8F9B;
 
-    --font-sm: normal 12px 'Golos Regular';
-    --font-md: normal 14px 'Golos Regular';
-
-    --font-bold-sm: normal 12px 'Golos Bold';
-    --font-bold-md: normal 14px 'Golos Bold';
+    --font-xs: normal 150% 12px 'Golos Regular';
+    --font-sm: normal 150% 13px 'Golos Regular';
+    --font-md: normal 150% 14px 'Golos Regular';
+    --font-lg: normal 1150% 6px 'Golos Regular';
 
     --label-width: 140px;
     --content-width: 240px;
+
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+
+
+
     /* Turquoise
-    --primary-base: #80BEE1;
-    --primary-dark: #6B9EBD;
-    --primary-darkest: #568199;;
-    --primary-light:#ACD6EF;;
-    --primary-lightest:  #D7EFFD; */
+    --primary-base: #4793BE;
+    --primary-dark: #4084AB;
+    --primary-darkest: #397698;;
+    --primary-light:#75AECE;;
+    --primary-lightest:  #A3C9DF; */
 
 
     /* Mint
@@ -127,7 +104,7 @@
 }
 
   body {
-    background-color: #fff;
+    background-color: #F6F8FA;
   }
   #preloader {
       position: fixed;

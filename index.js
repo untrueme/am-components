@@ -31,13 +31,19 @@ async function initScriptsHandler(context) {
 }
 
 async function formsHandler(context) {
-    let files = await findResources(context.url);
-    const resp = await prepareResponse(files.reverse()[0], { mimeType: 'application/javascript' });
+    try {
+        let files = await findResources(context.url);
+        const resp = await prepareResponse(files.reverse()[0], { mimeType: 'application/javascript' });
 
-    context.headers(resp.headers);
-    if (resp.content) {
-        context.send(resp.content);
+        context.headers(resp.headers);
+        if (resp.content) {
+            context.send(resp.content);
+        }
     }
+    catch (err){
+        context.send(err);
+    }
+    
 }
 
 
@@ -80,6 +86,10 @@ async function staticHandler(context) {
     if (mimeType === 'image/vnd.microsoft.icon') {
         mimeType = 'image/x-icon';
     }
+    if(mimeType === 'text/css') {
+        mimeType = 'text/css; charset=UTF-8';
+    }
+
     const contentType = mimeType?.split('/')[1] || 'javascript';
     const resp = await prepareResponse(staticPath, { contentType, mimeType });
     context.headers(resp.headers);
